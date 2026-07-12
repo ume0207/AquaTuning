@@ -14,7 +14,7 @@ function switchView(view, updateUrl = true) {
   if (!views.includes(view)) return;
   document.querySelectorAll("[data-view]").forEach((button) => {
     const selected = button.dataset.view === view;
-    button.classList.toggle("active", selected && (button.classList.contains("tab") || button.classList.contains("side-link")));
+    button.classList.toggle("active", selected && (button.classList.contains("tab") || button.classList.contains("side-link") || button.classList.contains("mobile-bottom-link")));
     if (button.classList.contains("tab")) button.setAttribute("aria-selected", String(selected));
   });
   views.forEach((name) => {
