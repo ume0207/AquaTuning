@@ -3,11 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#eef7fc" />
-    <meta name="description" content="アクアチューニング®アカデミー受講者ポータル。トーク、レッスン、講座概要をひとつに。" />
-    <meta property="og:title" content="Aqua Tuning Academy | 受講者ポータル" />
-    <meta property="og:description" content="やさしい振動を、確かな技術へ。アクアチューニング基礎講習" />
-    <title>Aqua Tuning Academy | 受講者ポータル</title>
+    <meta name="theme-color" content="#f2f8fa" />
+    <meta name="description" content="Aqua Tuning Talk" />
+    <title>Aqua Tuning | Talk</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -15,169 +13,83 @@
   </head>
   <body>
     <div class="app-shell">
-      <aside class="sidebar" aria-label="メインナビゲーション">
+      <aside class="sidebar" id="sidebar" aria-label="メインナビゲーション">
         <div class="brand-lockup">
           <div class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></div>
-          <div>
-            <p class="brand-name">Aqua<br />tuning</p>
-            <p class="brand-sub">ACADEMY</p>
-          </div>
+          <div><p class="brand-name">Aqua<br />Tuning</p><p class="brand-sub">TALK</p></div>
         </div>
 
         <div class="profile-card">
           <div class="avatar avatar-user">上</div>
-          <div>
-            <p class="profile-label">受講者</p>
-            <p class="profile-name">上萩 環さん</p>
-          </div>
-            <button class="icon-button" id="profile-button" aria-label="プロフィールメニュー">•••</button>
-          </div>
+          <div><p class="profile-label">MEMBER</p><p class="profile-name">上萩 環さん</p></div>
+          <button class="icon-button" id="profile-button" aria-label="プロフィールメニュー">•••</button>
           <div class="profile-popover" id="profile-popover" hidden>
-            <p class="popover-label">MY ACCOUNT</p>
-            <strong>上萩 環さん</strong>
+            <p>MY ACCOUNT</p><strong>上萩 環さん</strong>
             <button data-toast="プロフィール編集は準備中です">プロフィールを編集</button>
             <button data-toast="ログアウト機能は準備中です">ログアウト</button>
           </div>
+        </div>
 
         <nav class="side-nav">
-          <button class="side-link active" data-view="talk"><span class="nav-icon">◌</span>トーク</button>
-          <button class="side-link" data-view="contents"><span class="nav-icon">▤</span>コンテンツ</button>
-          <button class="side-link" data-view="overview"><span class="nav-icon">✦</span>講座概要</button>
+          <button class="side-link active" data-thread-list><span class="nav-icon">◌</span>トーク</button>
           <div class="nav-divider"></div>
           <button class="side-link" data-toast="お知らせ一覧は準備中です"><span class="nav-icon">♢</span>お知らせ<span class="nav-badge">2</span></button>
           <button class="side-link" data-toast="ヘルプセンターは準備中です"><span class="nav-icon">?</span>ヘルプ</button>
         </nav>
 
-        <div class="sidebar-bottom">
-          <div class="water-line"></div>
-          <p>触れるたび、芯から満たされていく。</p>
-          <span>© AQUA TUNING ACADEMY</span>
-        </div>
+        <div class="sidebar-bottom"><div class="water-line"></div><p>Aqua Tuning</p><span>COMMUNITY TALK</span></div>
       </aside>
+
+      <button class="drawer-scrim" id="drawer-scrim" aria-label="メニューを閉じる" hidden></button>
 
       <main class="main-content">
         <header class="topbar">
-          <button class="mobile-menu" aria-label="メニューを開く">☰</button>
-          <div class="breadcrumb"><span>受講者ポータル</span><b>/</b><strong>アクアチューニング基礎講習</strong></div>
+          <button class="mobile-menu" id="mobile-menu" aria-label="メニューを開く">☰</button>
+          <div class="breadcrumb"><span>受講者ポータル</span><b>/</b><strong>Aqua Tuning</strong></div>
           <div class="top-actions">
             <button class="circle-action" data-toast="検索機能は準備中です" aria-label="検索">⌕</button>
             <button class="circle-action notification" id="notification-button" aria-label="通知">♧<i></i></button>
           </div>
           <div class="notification-popover" id="notification-popover" hidden>
             <div class="popover-heading"><strong>お知らせ</strong><span>2件</span></div>
-            <button data-toast="お知らせを確認しました"><b>講師</b><span>今週の小さな課題が届いています</span><small>昨日</small></button>
-            <button data-toast="お知らせを確認しました"><b>運営</b><span>Lesson 03が公開されました</span><small>2日前</small></button>
+            <button data-toast="お知らせを確認しました"><b>講師</b><span>新しい投稿があります</span><small>昨日</small></button>
+            <button data-toast="お知らせを確認しました"><b>運営</b><span>Aqua Tuning Talkへようこそ</span><small>2日前</small></button>
           </div>
         </header>
 
-        <section class="course-hero">
-          <div class="hero-copy">
-            <div class="eyebrow"><span class="eyebrow-dot"></span> MY LEARNING JOURNEY</div>
-            <h1>アクアチューニング<br /><em>基礎講習</em></h1>
-            <p>水晶から生まれたやさしい振動で、<br class="desktop-break" />身体と心の調律を学ぶ3時間。</p>
-            <div class="hero-meta"><span>◷ 全 6レッスン</span><span>◒ 受講期限なし</span></div>
-          </div>
-          <div class="hero-art" aria-hidden="true">
-            <div class="hero-orbit orbit-one"></div>
-            <div class="hero-orbit orbit-two"></div>
-            <div class="crystal crystal-large"></div>
-            <div class="crystal crystal-small"></div>
-            <div class="hero-seal">AQUA<br /><span>TUNING</span></div>
-          </div>
-          <div class="hero-progress">
-            <div class="progress-label"><span>あなたの進捗</span><strong>32%</strong></div>
-            <div class="progress-track"><span style="width: 32%"></span></div>
-            <p>2 / 6 レッスン完了</p>
-          </div>
+        <section class="room-header">
+          <div><p class="eyebrow"><span class="eyebrow-dot"></span> COMMUNITY TALK</p><h1>Aqua Tuning</h1></div>
+          <button class="outline-button" data-toast="トークをフォローしました">♡ フォロー</button>
         </section>
 
-        <div class="mobile-course-title">
-          <p class="eyebrow"><span class="eyebrow-dot"></span> MY LEARNING JOURNEY</p>
-          <h1>アクアチューニング基礎講習</h1>
-        </div>
-
         <div class="content-wrap">
-          <div class="tabbar" role="tablist" aria-label="講座メニュー">
-            <button class="tab active" role="tab" aria-selected="true" data-view="talk"><span>◌</span> トーク <b class="tab-count">3</b></button>
-            <button class="tab" role="tab" aria-selected="false" data-view="contents"><span>▤</span> コンテンツ</button>
-            <button class="tab" role="tab" aria-selected="false" data-view="overview"><span>✦</span> 概要</button>
-          </div>
+          <div class="room-toolbar"><div><strong>トーク</strong><span>スレッドを選択してください</span></div><button data-toast="参加者一覧は準備中です">◉ 参加者 18名　⌄</button></div>
 
-          <section class="view active" id="view-talk" role="tabpanel">
-            <div class="section-heading">
-              <div><p class="section-kicker">COMMUNITY ROOM</p><h2>受講生トーク</h2></div>
-              <button class="outline-button" data-toast="トークルームをフォローしました">♡ フォロー</button>
+          <section class="thread-list-view" id="thread-list-view" aria-labelledby="thread-index-title">
+            <div class="section-heading"><div><p class="section-kicker">THREAD INDEX</p><h2 id="thread-index-title">トーク一覧</h2></div><span class="thread-count">6スレッド</span></div>
+            <div class="thread-list">
+              <button class="thread-item pinned" data-thread="welcome"><span class="thread-symbol">✧</span><span class="thread-copy"><strong>はじめに</strong><small>Aqua Tuning Talkへようこそ</small><em>講師　・　1件</em></span><span class="thread-arrow">→</span></button>
+              <button class="thread-item" data-thread="about"><span class="thread-symbol">◎</span><span class="thread-copy"><strong>Aqua Tuningについて</strong><small>メソッドや道具について話すスレッド</small><em>講師　・　3件</em></span><span class="thread-arrow">→</span></button>
+              <button class="thread-item" data-thread="questions"><span class="thread-symbol">?</span><span class="thread-copy"><strong>質問・相談</strong><small>わからないことを気軽に質問できます</small><em>受講生　・　8件</em></span><span class="thread-arrow">→</span></button>
+              <button class="thread-item" data-thread="practice"><span class="thread-symbol">◌</span><span class="thread-copy"><strong>実践シェア</strong><small>日々の気づきや実践をシェアする場所</small><em>受講生　・　5件</em></span><span class="thread-arrow">→</span></button>
+              <button class="thread-item" data-thread="voice"><span class="thread-symbol">♡</span><span class="thread-copy"><strong>受講生の声</strong><small>感じたこと、変化、うれしかったこと</small><em>受講生　・　4件</em></span><span class="thread-arrow">→</span></button>
+              <button class="thread-item" data-thread="news"><span class="thread-symbol">♢</span><span class="thread-copy"><strong>お知らせ</strong><small>運営からの最新情報</small><em>運営　・　2件</em></span><span class="thread-arrow">→</span></button>
             </div>
-            <div class="room-toolbar"><div><strong>基礎講習トークルーム</strong><span>講師と受講生が参加中</span></div><button data-toast="参加者一覧は準備中です">◉ 参加者 18名　⌄</button></div>
-            <section class="embedded-course" aria-labelledby="embedded-course-title">
-              <div class="embedded-course-head">
-                <div><p class="embedded-kicker">COURSE CONTENT</p><h3 id="embedded-course-title">基礎講習</h3><p>全6レッスン　・　2レッスン完了</p></div>
-                <div class="embedded-progress"><strong>32%</strong><span>進捗</span></div>
-              </div>
-              <div class="embedded-lesson-list">
-                <button class="embedded-lesson done" data-lesson="1" data-toast="Lesson 01を開きます"><span class="embedded-lesson-number">01</span><span><small>動画　08:32</small><strong>アクアチューニングとは</strong></span><i>✓</i></button>
-                <button class="embedded-lesson done" data-lesson="2" data-toast="Lesson 02を開きます"><span class="embedded-lesson-number">02</span><span><small>動画　12:10</small><strong>水晶と振動の基礎</strong></span><i>✓</i></button>
-                <button class="embedded-lesson current" data-lesson="3" data-toast="Lesson 03を開きます"><span class="embedded-lesson-number">03</span><span><small>動画　16:45</small><strong>身体の声を聴く</strong></span><i>▶</i></button>
-                <button class="embedded-lesson" data-lesson="4" data-toast="Lesson 04を開きます"><span class="embedded-lesson-number">04</span><span><small>動画　18:20</small><strong>触れ方・当て方の基本</strong></span><i>⌑</i></button>
-                <button class="embedded-lesson" data-lesson="5" data-toast="Lesson 05を開きます"><span class="embedded-lesson-number">05</span><span><small>動画　21:08</small><strong>セルフケアを実践する</strong></span><i>⌑</i></button>
-                <button class="embedded-lesson" data-lesson="6" data-toast="受講ガイドを開きます"><span class="embedded-lesson-number">06</span><span><small>PDF　チェックリスト</small><strong>受講ガイドと実践チェックリスト</strong></span><i>⌑</i></button>
-              </div>
-            </section>
-            <div class="notice-card">
-              <div class="notice-icon">✧</div>
-              <div><p class="notice-title">ようこそ、アクアチューニングの学びへ</p><p>講座に関する質問や気づきを、受講生のみなさんとシェアしましょう。</p></div>
-              <button class="dismiss-button" aria-label="お知らせを閉じる">×</button>
-            </div>
+          </section>
 
+          <section class="thread-detail" id="thread-detail" hidden aria-live="polite">
+            <button class="back-button" id="thread-back">← トーク一覧へ戻る</button>
+            <div class="thread-detail-head"><span class="thread-detail-label" id="thread-label">THREAD</span><h2 id="thread-title">はじめに</h2><p id="thread-description"></p></div>
+            <div class="thread-posts" id="thread-posts"></div>
             <div class="composer-card">
               <div class="avatar avatar-user">上</div>
-              <div class="composer-main">
-                <textarea id="post-input" rows="2" placeholder="学びの気づきや質問をシェアする…"></textarea>
-                <div class="composer-actions"><div class="composer-tools"><button data-toast="画像添付は準備中です">⊙ 画像</button><button data-toast="ファイル添付は準備中です">⌁ ファイル</button></div><button class="primary-button" id="post-button">投稿する <span>→</span></button></div>
-              </div>
+              <div class="composer-main"><textarea id="thread-input" rows="2" placeholder="このスレッドに投稿する…"></textarea><div class="composer-actions"><div class="composer-tools"><button data-toast="画像添付は準備中です">⊙ 画像</button><button data-toast="ファイル添付は準備中です">⌁ ファイル</button></div><button class="primary-button" id="thread-post-button">投稿する <span>→</span></button></div></div>
             </div>
-
-            <div class="feed" id="feed">
-              <article class="post-card">
-                <div class="post-head"><div class="avatar avatar-tamura">田</div><div><p class="post-author">田村 里奈 <span class="member-tag">受講生</span></p><p class="post-time">2時間前</p></div><button class="more-button" aria-label="投稿メニュー">•••</button></div>
-                <p class="post-body">今日はLesson 02の「音を聴く」ワークを実践してみました。いつもより呼吸が深くなった気がします。みなさんはどんな変化を感じましたか？</p>
-                <div class="post-footer"><button class="reaction-button" data-reaction>♡ <span>4</span></button><button class="comment-button">◌ コメント 2</button></div>
-              </article>
-              <article class="post-card highlighted-post">
-                <div class="post-head"><div class="avatar avatar-instructor">水</div><div><p class="post-author">水野 講師 <span class="instructor-tag">講師</span></p><p class="post-time">昨日</p></div><button class="more-button" aria-label="投稿メニュー">•••</button></div>
-                <p class="post-body">みなさん、受講スタートありがとうございます。まずは「自分の体の声を聴く」ことから。無理なく、心地よく、毎日の中で続けてみてくださいね。</p>
-                <div class="post-quote"><span>“</span><div><strong>今週の小さな課題</strong><p>眠る前に30秒、呼吸と身体の重さを感じてみる。</p></div></div>
-                <div class="post-footer"><button class="reaction-button" data-reaction>♡ <span>12</span></button><button class="comment-button">◌ コメント 5</button></div>
-              </article>
-            </div>
-          </section>
-
-          <section class="view" id="view-contents" role="tabpanel" hidden>
-            <div class="section-heading"><div><p class="section-kicker">YOUR CURRICULUM</p><h2>コンテンツ</h2></div><span class="completion-note">2 / 6 完了</span></div>
-            <div class="content-filters" role="toolbar" aria-label="コンテンツの絞り込み"><button class="filter-chip active" data-filter="all">すべて <span>6</span></button><button class="filter-chip" data-filter="live">ライブ</button><button class="filter-chip" data-filter="movie">動画 <span>5</span></button><button class="filter-chip" data-filter="document">資料</button><button class="filter-chip" data-filter="article">記事</button></div>
-            <div class="contents-intro"><div><p class="intro-eyebrow">AQUA TUNING BASIC</p><h3>やさしい振動を、<br />確かな技術へ。</h3><p>基礎から実践まで、6つのレッスンで丁寧に学びます。</p></div><div class="mini-progress"><strong>32%</strong><span>進捗</span></div></div>
-            <div class="lesson-list">
-              <button class="lesson-card completed" data-type="movie" data-lesson="1" data-toast="Lesson 01を開きます"><span class="lesson-number">01</span><span class="lesson-copy"><small>WELCOME　・　動画</small><strong>アクアチューニングとは</strong><em>08:32　・　完了</em></span><span class="lesson-status">✓</span><span class="lesson-arrow">→</span></button>
-              <button class="lesson-card completed" data-type="movie" data-lesson="2" data-toast="Lesson 02を開きます"><span class="lesson-number">02</span><span class="lesson-copy"><small>FOUNDATION　・　動画</small><strong>水晶と振動の基礎</strong><em>12:10　・　完了</em></span><span class="lesson-status">✓</span><span class="lesson-arrow">→</span></button>
-              <button class="lesson-card current" data-type="movie" data-lesson="3" data-toast="Lesson 03を開きます"><span class="lesson-number">03</span><span class="lesson-copy"><small>LISTENING　・　動画</small><strong>身体の声を聴く</strong><em>16:45　・　次に見る</em></span><span class="lesson-status play">▶</span><span class="lesson-arrow">→</span></button>
-              <button class="lesson-card" data-type="movie" data-lesson="4" data-toast="Lesson 04を開きます"><span class="lesson-number">04</span><span class="lesson-copy"><small>TOUCH　・　動画</small><strong>触れ方・当て方の基本</strong><em>18:20　・　未完了</em></span><span class="lesson-status lock">⌑</span><span class="lesson-arrow">→</span></button>
-              <button class="lesson-card" data-type="movie" data-lesson="5" data-toast="Lesson 05を開きます"><span class="lesson-number">05</span><span class="lesson-copy"><small>PRACTICE　・　動画</small><strong>セルフケアを実践する</strong><em>21:08　・　未完了</em></span><span class="lesson-status lock">⌑</span><span class="lesson-arrow">→</span></button>
-              <button class="lesson-card" data-type="document" data-toast="受講ガイドを開きます"><span class="lesson-number">06</span><span class="lesson-copy"><small>GUIDE　・　資料</small><strong>受講ガイドと実践チェックリスト</strong><em>PDF　・　未読</em></span><span class="lesson-status lock">⌑</span><span class="lesson-arrow">→</span></button>
-            </div>
-          </section>
-
-          <section class="view" id="view-overview" role="tabpanel" hidden>
-            <div class="section-heading"><div><p class="section-kicker">ABOUT THIS COURSE</p><h2>講座概要</h2></div></div>
-            <div class="overview-grid"><div class="overview-main"><h3>触れるたび、芯から満たされていく。</h3><p>アクアチューニング®は、水晶から生まれた特別なチューナーを使い、やさしい「振動」で身体の内側にそっと働きかける新しいケアメソッドです。</p><p>この講座では、道具の扱い方から、相手の身体と向き合うための基本的な考え方まで、安心して実践できるように丁寧にお伝えします。</p><div class="overview-quote">心地よい音と振動が、<br /><em>本来の自分へ戻る時間</em>をつくります。</div></div><div class="overview-facts"><div><span>LESSONS</span><strong>6</strong><small>動画＋ワーク</small></div><div><span>DURATION</span><strong>3<small>時間</small></strong><small>自分のペースで</small></div><div><span>LEVEL</span><strong>Basic</strong><small>初心者向け</small></div></div></div>
-            <div class="info-row"><div><span class="info-icon">◷</span><div><small>受講期間</small><strong>期限なし</strong></div></div><div><span class="info-icon">◎</span><div><small>修了条件</small><strong>全レッスン視聴</strong></div></div><div><span class="info-icon">♧</span><div><small>サポート</small><strong>トークルーム</strong></div></div></div>
           </section>
         </div>
       </main>
-      <nav class="mobile-bottom-nav" aria-label="スマホ用講座ナビゲーション">
-        <button class="mobile-bottom-link active" data-view="talk"><span>◌</span><small>トーク</small></button>
-        <button class="mobile-bottom-link" data-view="contents"><span>▤</span><small>コンテンツ</small></button>
-        <button class="mobile-bottom-link" data-view="overview"><span>✦</span><small>概要</small></button>
-      </nav>
+
+      <nav class="mobile-bottom-nav" aria-label="スマホ用ナビゲーション"><button class="mobile-bottom-link active" data-thread-list><span>◌</span><small>トーク一覧</small></button><button class="mobile-bottom-link" data-toast="お知らせ一覧は準備中です"><span>♢</span><small>お知らせ</small></button><button class="mobile-bottom-link" data-toast="プロフィールは準備中です"><span>◯</span><small>プロフィール</small></button></nav>
     </div>
     <div class="toast" id="toast" role="status"></div>
     <script src="app.js"></script>
