@@ -229,6 +229,9 @@ const contentData = {
 
 const primaryTabs = [...document.querySelectorAll(".primary-tab")];
 const panels = [...document.querySelectorAll(".main-panel")];
+const themeButtons = [...document.querySelectorAll(".theme-button")];
+const themeColorMeta = document.getElementById("themeColor");
+const brandHomeLink = document.querySelector(".brand");
 const talkShell = document.getElementById("talkShell");
 const roomRows = [...document.querySelectorAll(".room-row")];
 const chatTitle = document.getElementById("chatTitle");
@@ -249,7 +252,14 @@ const toast = document.getElementById("toast");
 let activeTab = "talk";
 let activeRoom = "welcome";
 let activeSection = "guide";
+let activeTheme = "blue";
 let toastTimer;
+
+const themeColors = {
+  blue: "#f3f8fe",
+  mint: "#f3f9f7",
+  underwater: "#052f3b"
+};
 
 function makeIcon(id, className = "icon") {
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -267,6 +277,26 @@ function updateUrl(changes, mode = "push") {
     else url.searchParams.set(key, value);
   });
   window.history[mode === "replace" ? "replaceState" : "pushState"]({}, "", url);
+}
+
+function setTheme(themeName, { updateHistory = true, announce = false } = {}) {
+  const validTheme = ["blue", "mint", "underwater"].includes(themeName) ? themeName : "blue";
+  activeTheme = validTheme;
+  document.body.dataset.theme = validTheme;
+  themeColorMeta.setAttribute("content", themeColors[validTheme]);
+  brandHomeLink.href = `?tab=talk&theme=${validTheme}`;
+
+  themeButtons.forEach((button) => {
+    const selected = button.dataset.themeValue === validTheme;
+    button.classList.toggle("is-active", selected);
+    button.setAttribute("aria-pressed", String(selected));
+  });
+
+  if (updateHistory) updateUrl({ theme: validTheme });
+  if (announce) {
+    const labels = { blue: "クリアブルー", mint: "ミントブルー", underwater: "アンダーウォーター" };
+    showToast(`${labels[validTheme]}のUIに切り替えました。`);
+  }
 }
 
 function setTab(tabName, { updateHistory = true } = {}) {
@@ -481,6 +511,10 @@ function setSection(sectionId) {
 
 primaryTabs.forEach((tab) => tab.addEventListener("click", () => setTab(tab.dataset.tab)));
 
+themeButtons.forEach((button) => {
+  button.addEventListener("click", () => setTheme(button.dataset.themeValue, { announce: true }));
+});
+
 roomRows.forEach((row) => {
   row.addEventListener("click", () => {
     row.querySelector(".unread-dot")?.remove();
@@ -566,6 +600,7 @@ document.addEventListener("click", (event) => {
 window.addEventListener("popstate", () => {
   const params = new URLSearchParams(window.location.search);
   const tab = params.get("tab") || "talk";
+  setTheme(params.get("theme") || "blue", { updateHistory: false });
   setTab(tab, { updateHistory: false });
   const room = params.get("room");
   if (room && roomData[room]) setRoom(room, { updateHistory: false, openMobile: true });
@@ -575,10 +610,12 @@ window.addEventListener("popstate", () => {
 function initialise() {
   const params = new URLSearchParams(window.location.search);
   const requestedTab = params.get("tab");
+  const requestedTheme = params.get("theme");
   const legacyTabs = { contents: "content", overview: "intro" };
   const tab = legacyTabs[requestedTab] || requestedTab || "talk";
   const room = params.get("room");
 
+  setTheme(requestedTheme || "blue", { updateHistory: false });
   setTab(tab, { updateHistory: false });
   setRoom(roomData[room] ? room : "welcome", {
     updateHistory: false,
@@ -586,8 +623,8 @@ function initialise() {
   });
   renderLessons(activeSection);
 
-  if (!requestedTab || legacyTabs[requestedTab]) {
-    updateUrl({ tab: activeTab }, "replace");
+  if (!requestedTab || legacyTabs[requestedTab] || !requestedTheme) {
+    updateUrl({ tab: activeTab, theme: activeTheme }, "replace");
   }
 }
 
