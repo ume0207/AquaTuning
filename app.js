@@ -2,6 +2,8 @@ const toast = document.querySelector("#toast");
 const sidebar = document.querySelector("#sidebar");
 const drawerScrim = document.querySelector("#drawer-scrim");
 let toastTimer;
+let currentCategory = new URLSearchParams(window.location.search).get("tab") || "talk";
+const categories = ["talk", "contents", "overview"];
 
 const threads = {
   welcome: { title: "はじめに", description: "Aqua Tuning Talkへようこそ", label: "WELCOME", posts: [{ author: "水野 講師", role: "講師", avatar: "水", avatarClass: "avatar-instructor", time: "昨日", body: "Aqua Tuning Talkへようこそ。ここでは、気づきや質問をスレッドごとにシェアできます。まずは気になるスレッドを選んで、ゆっくり参加してみてください。", quote: "心地よく学べる場を、みんなでつくっていきましょう。" }] },
@@ -33,6 +35,25 @@ function closePopovers() {
   document.querySelectorAll(".profile-popover, .notification-popover").forEach((popover) => { popover.hidden = true; });
 }
 
+function setCategory(category, updateUrl = true) {
+  if (!categories.includes(category)) category = "talk";
+  currentCategory = category;
+  document.querySelectorAll("[data-category]").forEach((button) => {
+    const selected = button.dataset.category === category;
+    button.classList.toggle("active", selected);
+    button.setAttribute("aria-selected", String(selected));
+  });
+  document.querySelectorAll("[data-category-panel]").forEach((panel) => {
+    panel.hidden = panel.dataset.categoryPanel !== category;
+  });
+  if (updateUrl) {
+    const url = new URL(window.location.href);
+    url.searchParams.set("tab", category);
+    url.searchParams.delete("thread");
+    window.history.replaceState({}, "", url);
+  }
+}
+
 function getSavedPosts(threadId) {
   return JSON.parse(localStorage.getItem(`aqua-thread-posts-${threadId}`) || "[]");
 }
@@ -58,7 +79,7 @@ function renderPost(post) {
 
 function openThread(threadId, updateUrl = true) {
   const thread = threads[threadId] || threads.welcome;
-  document.querySelector("#thread-list-view").hidden = true;
+  document.querySelectorAll("[data-category-panel]").forEach((panel) => { panel.hidden = true; });
   document.querySelector("#thread-detail").hidden = false;
   document.querySelector("#thread-label").textContent = thread.label;
   document.querySelector("#thread-title").textContent = thread.title;
@@ -76,9 +97,10 @@ function openThread(threadId, updateUrl = true) {
 
 function showThreadList(updateUrl = true) {
   document.querySelector("#thread-detail").hidden = true;
-  document.querySelector("#thread-list-view").hidden = false;
+  setCategory(currentCategory, false);
   if (updateUrl) {
     const url = new URL(window.location.href);
+    url.searchParams.set("tab", currentCategory);
     url.searchParams.delete("thread");
     window.history.replaceState({}, "", url);
   }
@@ -86,6 +108,10 @@ function showThreadList(updateUrl = true) {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
+document.querySelectorAll("[data-category]").forEach((button) => button.addEventListener("click", () => {
+  showThreadList(false);
+  setCategory(button.dataset.category);
+}));
 document.querySelectorAll("[data-thread]").forEach((button) => button.addEventListener("click", () => openThread(button.dataset.thread)));
 document.querySelectorAll("[data-thread-list]").forEach((button) => button.addEventListener("click", showThreadList));
 document.querySelector("#thread-back").addEventListener("click", () => showThreadList());
@@ -123,4 +149,5 @@ document.querySelector("#thread-post-button").addEventListener("click", () => {
 });
 
 const initialThread = new URLSearchParams(window.location.search).get("thread");
+setCategory(currentCategory, false);
 if (initialThread && threads[initialThread]) openThread(initialThread, false);

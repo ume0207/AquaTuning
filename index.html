@@ -63,15 +63,35 @@
         </section>
 
         <div class="content-wrap">
+          <div class="tabbar" id="category-tabs" role="tablist" aria-label="カテゴリ">
+            <button class="tab active" role="tab" aria-selected="true" data-category="talk"><span>◌</span> トーク <b class="tab-count">3</b></button>
+            <button class="tab" role="tab" aria-selected="false" data-category="contents"><span>▤</span> コンテンツ</button>
+            <button class="tab" role="tab" aria-selected="false" data-category="overview"><span>✦</span> 概要</button>
+          </div>
           <div class="room-toolbar"><div><strong>トーク</strong><span>スレッドを選択してください</span></div><button data-toast="参加者一覧は準備中です">◉ 参加者 18名　⌄</button></div>
 
-          <section class="thread-list-view" id="thread-list-view" aria-labelledby="thread-index-title">
+          <section class="thread-list-view category-panel" id="category-talk" data-category-panel="talk" aria-labelledby="thread-index-title">
             <div class="section-heading"><div><p class="section-kicker">THREAD INDEX</p><h2 id="thread-index-title">トーク一覧</h2></div><span class="thread-count">6スレッド</span></div>
             <div class="thread-list">
               <button class="thread-item pinned" data-thread="welcome"><span class="thread-symbol">✧</span><span class="thread-copy"><strong>はじめに</strong><small>Aqua Tuning Talkへようこそ</small><em>講師　・　1件</em></span><span class="thread-arrow">→</span></button>
-              <button class="thread-item" data-thread="about"><span class="thread-symbol">◎</span><span class="thread-copy"><strong>Aqua Tuningについて</strong><small>メソッドや道具について話すスレッド</small><em>講師　・　3件</em></span><span class="thread-arrow">→</span></button>
               <button class="thread-item" data-thread="questions"><span class="thread-symbol">?</span><span class="thread-copy"><strong>質問・相談</strong><small>わからないことを気軽に質問できます</small><em>受講生　・　8件</em></span><span class="thread-arrow">→</span></button>
               <button class="thread-item" data-thread="practice"><span class="thread-symbol">◌</span><span class="thread-copy"><strong>実践シェア</strong><small>日々の気づきや実践をシェアする場所</small><em>受講生　・　5件</em></span><span class="thread-arrow">→</span></button>
+            </div>
+          </section>
+
+          <section class="thread-list-view category-panel" id="category-contents" data-category-panel="contents" hidden aria-labelledby="contents-index-title">
+            <div class="section-heading"><div><p class="section-kicker">CONTENT THREADS</p><h2 id="contents-index-title">コンテンツ</h2></div><span class="thread-count">3スレッド</span></div>
+            <div class="thread-list">
+              <button class="thread-item" data-thread="about"><span class="thread-symbol">◎</span><span class="thread-copy"><strong>Aqua Tuningについて</strong><small>メソッドや道具について話すスレッド</small><em>講師　・　3件</em></span><span class="thread-arrow">→</span></button>
+              <button class="thread-item" data-thread="practice"><span class="thread-symbol">◌</span><span class="thread-copy"><strong>実践シェア</strong><small>日々の気づきや実践をシェアする場所</small><em>受講生　・　5件</em></span><span class="thread-arrow">→</span></button>
+              <button class="thread-item" data-thread="questions"><span class="thread-symbol">?</span><span class="thread-copy"><strong>質問・相談</strong><small>コンテンツについて質問できます</small><em>受講生　・　8件</em></span><span class="thread-arrow">→</span></button>
+            </div>
+          </section>
+
+          <section class="thread-list-view category-panel" id="category-overview" data-category-panel="overview" hidden aria-labelledby="overview-index-title">
+            <div class="section-heading"><div><p class="section-kicker">OVERVIEW THREADS</p><h2 id="overview-index-title">概要</h2></div><span class="thread-count">3スレッド</span></div>
+            <div class="thread-list">
+              <button class="thread-item" data-thread="welcome"><span class="thread-symbol">✧</span><span class="thread-copy"><strong>はじめに</strong><small>Aqua Tuning Talkへようこそ</small><em>講師　・　1件</em></span><span class="thread-arrow">→</span></button>
               <button class="thread-item" data-thread="voice"><span class="thread-symbol">♡</span><span class="thread-copy"><strong>受講生の声</strong><small>感じたこと、変化、うれしかったこと</small><em>受講生　・　4件</em></span><span class="thread-arrow">→</span></button>
               <button class="thread-item" data-thread="news"><span class="thread-symbol">♢</span><span class="thread-copy"><strong>お知らせ</strong><small>運営からの最新情報</small><em>運営　・　2件</em></span><span class="thread-arrow">→</span></button>
             </div>
