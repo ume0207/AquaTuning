@@ -1,9 +1,7 @@
 const toast = document.querySelector("#toast");
-const sidebar = document.querySelector("#sidebar");
-const drawerScrim = document.querySelector("#drawer-scrim");
 let toastTimer;
+const categories = ["talk", "contents", "intro"];
 let currentCategory = new URLSearchParams(window.location.search).get("tab") || "talk";
-const categories = ["talk", "contents", "overview"];
 
 const threads = {
   welcome: { title: "はじめに", description: "Aqua Tuning Talkへようこそ", label: "WELCOME", posts: [{ author: "水野 講師", role: "講師", avatar: "水", avatarClass: "avatar-instructor", time: "昨日", body: "Aqua Tuning Talkへようこそ。ここでは、気づきや質問をスレッドごとにシェアできます。まずは気になるスレッドを選んで、ゆっくり参加してみてください。", quote: "心地よく学べる場を、みんなでつくっていきましょう。" }] },
@@ -14,38 +12,18 @@ const threads = {
   news: { title: "お知らせ", description: "運営からの最新情報", label: "NEWS", posts: [{ author: "Aqua Tuning 運営", role: "運営", avatar: "A", avatarClass: "avatar-instructor", time: "2日前", body: "Talkをオープンしました。今後のお知らせはこのスレッドに投稿します。" }] },
 };
 
-function showToast(message) {
-  toast.textContent = message;
-  toast.classList.add("show");
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => toast.classList.remove("show"), 2300);
-}
-
-function closeDrawer() {
-  sidebar.classList.remove("open");
-  drawerScrim.hidden = true;
-}
-
-function openDrawer() {
-  sidebar.classList.add("open");
-  drawerScrim.hidden = false;
-}
-
-function closePopovers() {
-  document.querySelectorAll(".profile-popover, .notification-popover").forEach((popover) => { popover.hidden = true; });
-}
+function showToast(message) { toast.textContent = message; toast.classList.add("show"); clearTimeout(toastTimer); toastTimer = setTimeout(() => toast.classList.remove("show"), 2300); }
+function savedPosts(id) { return JSON.parse(localStorage.getItem(`aqua-thread-posts-${id}`) || "[]"); }
 
 function setCategory(category, updateUrl = true) {
   if (!categories.includes(category)) category = "talk";
   currentCategory = category;
   document.querySelectorAll("[data-category]").forEach((button) => {
-    const selected = button.dataset.category === category;
-    button.classList.toggle("active", selected);
-    button.setAttribute("aria-selected", String(selected));
+    const active = button.dataset.category === category;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-selected", String(active));
   });
-  document.querySelectorAll("[data-category-panel]").forEach((panel) => {
-    panel.hidden = panel.dataset.categoryPanel !== category;
-  });
+  document.querySelectorAll("[data-category-panel]").forEach((panel) => { panel.hidden = panel.dataset.categoryPanel !== category; });
   if (updateUrl) {
     const url = new URL(window.location.href);
     url.searchParams.set("tab", category);
@@ -54,100 +32,58 @@ function setCategory(category, updateUrl = true) {
   }
 }
 
-function getSavedPosts(threadId) {
-  return JSON.parse(localStorage.getItem(`aqua-thread-posts-${threadId}`) || "[]");
-}
-
 function renderPost(post) {
   const card = document.createElement("article");
   card.className = "post-card";
-  const tag = post.role === "講師" ? "instructor-tag" : "member-tag";
-  card.innerHTML = `<div class="post-head"><div class="avatar ${post.avatarClass}"></div><div><p class="post-author"></p><p class="post-time"></p></div><button class="more-button" aria-label="投稿メニュー">•••</button></div><p class="post-body"></p>${post.quote ? `<div class="post-quote"><span>“</span><div><strong>メッセージ</strong><p></p></div></div>` : ""}<div class="post-footer"><button class="reaction-button" data-reaction>♡ <span>${post.reactions || 0}</span></button><button class="comment-button">◌ コメント</button></div>`;
-  card.querySelector(".avatar").textContent = post.avatar;
-  card.querySelector(".post-author").innerHTML = `${post.author} <span class="${tag}">${post.role}</span>`;
+  const tagClass = post.role === "講師" || post.role === "運営" ? "instructor-tag" : "member-tag";
+  card.innerHTML = `<div class="post-head"><div class="user-icon ${post.avatarClass}"></div><div><p class="post-author"></p><p class="post-time"></p></div><button class="more-button" aria-label="投稿メニュー">•••</button></div><p class="post-body"></p>${post.quote ? `<div class="post-quote"><span>“</span><div><strong>メッセージ</strong><p></p></div></div>` : ""}<div class="post-footer"><button class="reaction-button" data-reaction>♡ <span>${post.reactions || 0}</span></button><button class="comment-button">◌ コメント</button></div>`;
+  card.querySelector(".user-icon").textContent = post.avatar;
+  card.querySelector(".post-author").innerHTML = `${post.author} <span class="${tagClass}">${post.role}</span>`;
   card.querySelector(".post-time").textContent = post.time;
   card.querySelector(".post-body").textContent = post.body;
   if (post.quote) card.querySelector(".post-quote p").textContent = post.quote;
   card.querySelector("[data-reaction]").addEventListener("click", (event) => {
-    const button = event.currentTarget;
-    const count = button.querySelector("span");
-    button.classList.toggle("liked");
-    count.textContent = Number(count.textContent) + (button.classList.contains("liked") ? 1 : -1);
+    const button = event.currentTarget; const count = button.querySelector("span");
+    button.classList.toggle("liked"); count.textContent = Number(count.textContent) + (button.classList.contains("liked") ? 1 : -1);
   });
   return card;
 }
 
-function openThread(threadId, updateUrl = true) {
-  const thread = threads[threadId] || threads.welcome;
+function openThread(id, updateUrl = true) {
+  const thread = threads[id] || threads.welcome;
   document.querySelectorAll("[data-category-panel]").forEach((panel) => { panel.hidden = true; });
   document.querySelector("#thread-detail").hidden = false;
   document.querySelector("#thread-label").textContent = thread.label;
   document.querySelector("#thread-title").textContent = thread.title;
   document.querySelector("#thread-description").textContent = thread.description;
   const posts = document.querySelector("#thread-posts");
-  posts.replaceChildren(...[...thread.posts, ...getSavedPosts(threadId)].map(renderPost));
-  if (updateUrl) {
-    const url = new URL(window.location.href);
-    url.searchParams.set("thread", threadId);
-    window.history.replaceState({}, "", url);
-  }
-  closeDrawer();
+  posts.replaceChildren(...[...thread.posts, ...savedPosts(id)].map(renderPost));
+  if (updateUrl) { const url = new URL(window.location.href); url.searchParams.set("thread", id); url.searchParams.set("tab", currentCategory); window.history.replaceState({}, "", url); }
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-function showThreadList(updateUrl = true) {
+function showCategory() {
   document.querySelector("#thread-detail").hidden = true;
-  setCategory(currentCategory, false);
-  if (updateUrl) {
-    const url = new URL(window.location.href);
-    url.searchParams.set("tab", currentCategory);
-    url.searchParams.delete("thread");
-    window.history.replaceState({}, "", url);
-  }
-  closeDrawer();
+  setCategory(currentCategory, true);
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-document.querySelectorAll("[data-category]").forEach((button) => button.addEventListener("click", () => {
-  showThreadList(false);
-  setCategory(button.dataset.category);
-}));
+document.querySelectorAll("[data-category]").forEach((button) => button.addEventListener("click", () => { document.querySelector("#thread-detail").hidden = true; setCategory(button.dataset.category); }));
 document.querySelectorAll("[data-thread]").forEach((button) => button.addEventListener("click", () => openThread(button.dataset.thread)));
-document.querySelectorAll("[data-thread-list]").forEach((button) => button.addEventListener("click", showThreadList));
-document.querySelector("#thread-back").addEventListener("click", () => showThreadList());
-document.querySelector("#mobile-menu").addEventListener("click", openDrawer);
-drawerScrim.addEventListener("click", closeDrawer);
-
-document.querySelector("#profile-button").addEventListener("click", (event) => {
-  event.stopPropagation();
-  const popover = document.querySelector("#profile-popover");
-  const wasHidden = popover.hidden;
-  closePopovers();
-  popover.hidden = !wasHidden;
-});
-document.querySelector("#notification-button").addEventListener("click", (event) => {
-  event.stopPropagation();
-  const popover = document.querySelector("#notification-popover");
-  const wasHidden = popover.hidden;
-  closePopovers();
-  popover.hidden = !wasHidden;
-});
-document.addEventListener("click", closePopovers);
+document.querySelector("#thread-back")?.addEventListener("click", showCategory);
 document.querySelectorAll("[data-toast]").forEach((button) => button.addEventListener("click", () => showToast(button.dataset.toast)));
 
-document.querySelector("#thread-post-button").addEventListener("click", () => {
+document.querySelector("#thread-post-button")?.addEventListener("click", () => {
   const input = document.querySelector("#thread-input");
-  const threadId = new URLSearchParams(window.location.search).get("thread") || "welcome";
+  const id = new URLSearchParams(window.location.search).get("thread") || "welcome";
   const text = input.value.trim();
   if (!text) return showToast("投稿内容を入力してください");
-  const saved = getSavedPosts(threadId);
-  saved.push({ author: "上萩 環", role: "受講生", avatar: "上", avatarClass: "avatar-user", time: "たった今", body: text });
-  localStorage.setItem(`aqua-thread-posts-${threadId}`, JSON.stringify(saved));
-  input.value = "";
-  openThread(threadId, false);
-  showToast("スレッドに投稿しました");
+  const posts = savedPosts(id); posts.push({ author: "上萩 環", role: "受講生", avatar: "上", avatarClass: "user-icon", time: "たった今", body: text });
+  localStorage.setItem(`aqua-thread-posts-${id}`, JSON.stringify(posts)); input.value = ""; openThread(id, false); showToast("スレッドに投稿しました");
 });
 
-const initialThread = new URLSearchParams(window.location.search).get("thread");
+const requestedTab = new URLSearchParams(window.location.search).get("tab");
+currentCategory = requestedTab === "overview" ? "intro" : requestedTab;
 setCategory(currentCategory, false);
-if (initialThread && threads[initialThread]) openThread(initialThread, false);
+const requestedThread = new URLSearchParams(window.location.search).get("thread");
+if (requestedThread && threads[requestedThread]) openThread(requestedThread, false);
