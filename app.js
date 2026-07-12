@@ -34,6 +34,14 @@ function switchView(view, updateUrl = true) {
 document.querySelectorAll("[data-view]").forEach((button) => button.addEventListener("click", () => switchView(button.dataset.view)));
 document.querySelectorAll("[data-toast]").forEach((button) => button.addEventListener("click", () => showToast(button.dataset.toast)));
 
+document.querySelectorAll("[data-filter]").forEach((button) => button.addEventListener("click", () => {
+  const filter = button.dataset.filter;
+  document.querySelectorAll("[data-filter]").forEach((chip) => chip.classList.toggle("active", chip === button));
+  document.querySelectorAll(".lesson-card[data-type]").forEach((lesson) => {
+    lesson.hidden = filter !== "all" && lesson.dataset.type !== filter;
+  });
+}));
+
 function closePopovers() {
   document.querySelectorAll(".profile-popover, .notification-popover").forEach((popover) => { popover.hidden = true; });
 }
