@@ -12,7 +12,7 @@ Aqua Tuning向けの、トーク・コンテンツ・講座紹介をまとめた
 - 検索、ルーム切替、メッセージ投稿、リアクション、セクション切替に対応
 - 支給ロゴをヘッダーのAqua Tuningタイトル左へ配置
 - クリアブルー、ミントブルー、アンダーウォーターの3テーマを切替可能
-- `designs.html` にプレゼン用の3案比較ページを用意
+- `/designs` にプレゼン用の3案比較ページを用意
 
 ## ローカル確認
 
@@ -34,7 +34,7 @@ wrangler pages deploy . --project-name aquatuning --branch main
 
 ### プレゼン用URL
 
-- 3案比較: https://aquatuning.pages.dev/designs.html
+- 3案比較: https://aquatuning.pages.dev/designs
 - クリアブルー: https://aquatuning.pages.dev/?theme=blue&tab=talk
 - ミントブルー: https://aquatuning.pages.dev/?theme=mint&tab=talk
 - アンダーウォーター: https://aquatuning.pages.dev/?theme=underwater&tab=talk
