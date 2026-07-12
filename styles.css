@@ -782,6 +782,31 @@ a:focus-visible {
   font-weight: 700;
 }
 
+.message-photo {
+  width: min(100%, 560px);
+  margin: 15px 0 2px;
+  overflow: hidden;
+  border: 1px solid rgba(87, 139, 158, 0.16);
+  background: var(--wash);
+  white-space: normal;
+}
+
+.message-photo img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  object-position: center 28%;
+}
+
+.message-photo figcaption {
+  padding: 7px 10px;
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 0.03em;
+  line-height: 1.5;
+}
+
 .link-preview {
   display: grid;
   grid-template-columns: 54px minmax(0, 1fr);
@@ -1153,6 +1178,49 @@ a:focus-visible {
   background: #f2f4f4;
 }
 
+.lesson-photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 92px;
+  object-fit: cover;
+  transition: transform 320ms ease;
+}
+
+.lesson-row:hover .lesson-photo,
+.lesson-row:focus-visible .lesson-photo {
+  transform: scale(1.035);
+}
+
+.lesson-thumbnail.has-photo::before {
+  z-index: 1;
+  inset: 0;
+  width: auto;
+  height: auto;
+  border: 0;
+  border-radius: 0;
+  background: linear-gradient(180deg, rgba(12, 42, 55, 0.04), rgba(12, 42, 55, 0.68));
+}
+
+.lesson-thumbnail.has-photo::after {
+  display: none;
+}
+
+.lesson-thumbnail.has-photo .thumb-number,
+.lesson-thumbnail.has-photo .thumb-title {
+  z-index: 2;
+  color: #fff;
+  text-shadow: 0 1px 8px rgba(4, 28, 40, 0.5);
+}
+
+.lesson-thumbnail.has-photo .thumb-title {
+  top: auto;
+  right: 10px;
+  bottom: 9px;
+  width: auto;
+  transform: none;
+}
+
 .thumb-number {
   position: absolute;
   top: 7px;
@@ -1276,24 +1344,33 @@ a:focus-visible {
   display: flex;
   min-height: clamp(330px, 48vw, 570px);
   overflow: hidden;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   flex-direction: column;
   margin: 0 -2px;
+  padding: clamp(30px, 6vw, 78px);
   background:
     linear-gradient(135deg, rgba(238, 235, 246, 0.9), transparent 44%),
     linear-gradient(0deg, #e5f4f2, #f8fbfb 62%);
-  text-align: center;
+  text-align: left;
 }
 
 .intro-visual::after {
   position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  height: 28%;
-  background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.58));
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(10, 48, 65, 0.72), rgba(10, 48, 65, 0.18) 62%, rgba(10, 48, 65, 0.08)),
+    linear-gradient(180deg, transparent 62%, rgba(5, 35, 48, 0.25));
   content: "";
+}
+
+.intro-hero-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 45%;
 }
 
 .visual-kicker,
@@ -1305,29 +1382,32 @@ a:focus-visible {
 
 .visual-kicker {
   margin: 0 0 4px;
-  color: #688f8e;
+  color: rgba(239, 255, 255, 0.92);
   font-family: var(--font-display);
   font-size: 17px;
   letter-spacing: 0.12em;
+  text-shadow: 0 2px 14px rgba(3, 30, 42, 0.32);
   text-transform: uppercase;
 }
 
 .intro-visual h1 {
   margin: 0;
-  color: #375f60;
+  color: #fff;
   font-family: var(--font-display);
   font-size: clamp(54px, 7.5vw, 102px);
   font-weight: 500;
   letter-spacing: -0.025em;
   line-height: 0.95;
+  text-shadow: 0 3px 24px rgba(3, 30, 42, 0.28);
 }
 
 .visual-jp {
   margin: 18px 0 0;
-  color: #667879;
+  color: rgba(247, 255, 255, 0.94);
   font-family: var(--font-serif);
   font-size: 14px;
   letter-spacing: 0.16em;
+  text-shadow: 0 2px 14px rgba(3, 30, 42, 0.35);
 }
 
 .orb {
@@ -1383,6 +1463,139 @@ a:focus-visible {
 .intro-section {
   padding: 64px clamp(8px, 4vw, 48px);
   border-bottom: 1px solid var(--line);
+}
+
+.intro-about-grid,
+.philosophy-section,
+.navigator-section {
+  display: grid;
+  gap: clamp(30px, 5vw, 64px);
+  align-items: center;
+}
+
+.intro-about-grid {
+  grid-template-columns: minmax(0, 1.15fr) minmax(250px, 0.85fr);
+}
+
+.philosophy-section {
+  grid-template-columns: minmax(250px, 0.88fr) minmax(0, 1.12fr);
+  background: linear-gradient(110deg, var(--aqua-pale), rgba(255, 255, 255, 0));
+}
+
+.navigator-section {
+  grid-template-columns: minmax(240px, 0.82fr) minmax(0, 1.18fr);
+}
+
+.intro-copy p,
+.philosophy-copy > p,
+.navigator-copy > p {
+  margin: 0 0 16px;
+  color: #62676e;
+  font-size: 15px;
+  line-height: 2.05;
+}
+
+.intro-copy p:last-child,
+.philosophy-copy > p:last-of-type,
+.navigator-copy > p:last-of-type {
+  margin-bottom: 0;
+}
+
+.intro-inline-photo,
+.philosophy-photo,
+.navigator-photo,
+.community-photo {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  background: var(--wash);
+}
+
+.intro-inline-photo img,
+.philosophy-photo img,
+.navigator-photo img,
+.community-photo img,
+.aside-photo {
+  display: block;
+  width: 100%;
+  object-fit: cover;
+}
+
+.intro-inline-photo img {
+  min-height: 330px;
+  aspect-ratio: 4 / 5;
+}
+
+.philosophy-photo img {
+  min-height: 490px;
+  aspect-ratio: 3 / 4;
+}
+
+.navigator-photo img {
+  min-height: 490px;
+  aspect-ratio: 3 / 4;
+  object-position: center 25%;
+}
+
+.intro-inline-photo figcaption,
+.community-photo figcaption {
+  padding: 9px 12px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 0.03em;
+}
+
+.philosophy-principles {
+  margin-top: 27px;
+  border-top: 1px solid var(--line);
+}
+
+.philosophy-principles > div {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  gap: 14px;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.philosophy-principles span {
+  color: var(--aqua-deep);
+  font-family: var(--font-display);
+  font-size: 18px;
+}
+
+.philosophy-principles p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.75;
+}
+
+.philosophy-principles strong {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: 15px;
+}
+
+.navigator-copy blockquote {
+  margin: 28px 0 0;
+  padding: 18px 0 18px 21px;
+  border-left: 2px solid var(--aqua);
+  color: var(--aqua-deep);
+  font-family: var(--font-serif);
+  font-size: clamp(17px, 2vw, 22px);
+  line-height: 1.8;
+}
+
+.community-photo {
+  margin-top: 34px;
+}
+
+.community-photo img {
+  aspect-ratio: 16 / 7;
 }
 
 .section-kicker {
@@ -1517,6 +1730,12 @@ a:focus-visible {
   margin: 9px 0 24px;
   color: #747980;
   font-size: 13px;
+}
+
+.aside-photo {
+  aspect-ratio: 16 / 10;
+  margin: 0 0 18px;
+  object-position: center 52%;
 }
 
 .summary-link {
@@ -1890,6 +2109,10 @@ a:focus-visible {
     line-height: 1.8;
   }
 
+  .message-photo img {
+    aspect-ratio: 4 / 3;
+  }
+
   .link-preview {
     grid-template-columns: 44px minmax(0, 1fr);
     gap: 9px;
@@ -2026,6 +2249,10 @@ a:focus-visible {
     min-height: 70px;
   }
 
+  .lesson-photo {
+    min-height: 70px;
+  }
+
   .thumb-number {
     top: 3px;
     left: 6px;
@@ -2107,10 +2334,17 @@ a:focus-visible {
   .intro-visual {
     min-height: 360px;
     margin: 0;
+    padding: 30px 22px;
+  }
+
+  .intro-hero-image {
+    object-position: 35% center;
   }
 
   .intro-visual h1 {
-    font-size: clamp(56px, 18vw, 78px);
+    max-width: 210px;
+    font-size: 58px;
+    line-height: 0.86;
   }
 
   .visual-kicker {
@@ -2156,6 +2390,57 @@ a:focus-visible {
 
   .split-copy {
     display: block;
+  }
+
+  .intro-about-grid,
+  .philosophy-section,
+  .navigator-section {
+    display: block;
+  }
+
+  .intro-copy p,
+  .philosophy-copy > p,
+  .navigator-copy > p {
+    font-size: 13px;
+    line-height: 2;
+  }
+
+  .intro-inline-photo {
+    margin-top: 28px;
+  }
+
+  .philosophy-photo,
+  .navigator-photo {
+    margin-bottom: 30px;
+  }
+
+  .intro-inline-photo img,
+  .philosophy-photo img,
+  .navigator-photo img {
+    min-height: 0;
+    aspect-ratio: 4 / 3;
+  }
+
+  .navigator-photo img {
+    object-position: center 24%;
+  }
+
+  .philosophy-principles > div {
+    grid-template-columns: 31px minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .navigator-copy blockquote {
+    margin-top: 22px;
+    font-size: 16px;
+  }
+
+  .community-photo {
+    margin-top: 25px;
+  }
+
+  .community-photo img {
+    aspect-ratio: 4 / 3;
   }
 
   .plain-check-list {
@@ -2734,7 +3019,13 @@ body[data-theme="underwater"] .intro-visual {
 }
 
 body[data-theme="underwater"] .intro-visual::after {
-  background: linear-gradient(180deg, transparent, rgba(2, 29, 38, 0.54));
+  background:
+    linear-gradient(90deg, rgba(2, 31, 41, 0.82), rgba(2, 31, 41, 0.28) 64%, rgba(2, 31, 41, 0.14)),
+    linear-gradient(180deg, transparent 56%, rgba(2, 29, 38, 0.62));
+}
+
+body[data-theme="underwater"] .intro-hero-image {
+  filter: brightness(0.76) saturate(0.9) hue-rotate(4deg);
 }
 
 body[data-theme="underwater"] .visual-kicker,
@@ -2753,8 +3044,12 @@ body[data-theme="underwater"] .membership-status {
 
 body[data-theme="underwater"] .visual-jp,
 body[data-theme="underwater"] .intro-section > p:last-child,
+body[data-theme="underwater"] .intro-copy p,
+body[data-theme="underwater"] .philosophy-copy > p,
+body[data-theme="underwater"] .navigator-copy > p,
 body[data-theme="underwater"] .plain-check-list li,
 body[data-theme="underwater"] .feature-lines p,
+body[data-theme="underwater"] .philosophy-principles p,
 body[data-theme="underwater"] .summary-copy {
   color: #b5d5d4;
 }
@@ -2762,8 +3057,31 @@ body[data-theme="underwater"] .summary-copy {
 body[data-theme="underwater"] .intro-section,
 body[data-theme="underwater"] .plain-check-list li,
 body[data-theme="underwater"] .feature-lines,
-body[data-theme="underwater"] .feature-lines > div {
+body[data-theme="underwater"] .feature-lines > div,
+body[data-theme="underwater"] .philosophy-principles,
+body[data-theme="underwater"] .philosophy-principles > div {
   border-color: var(--line);
+}
+
+body[data-theme="underwater"] .philosophy-section {
+  background: linear-gradient(110deg, rgba(14, 76, 88, 0.86), rgba(5, 45, 57, 0.25));
+}
+
+body[data-theme="underwater"] .philosophy-principles strong,
+body[data-theme="underwater"] .navigator-copy blockquote {
+  color: #eafffd;
+}
+
+body[data-theme="underwater"] .intro-inline-photo figcaption,
+body[data-theme="underwater"] .community-photo figcaption,
+body[data-theme="underwater"] .message-photo figcaption {
+  border-color: var(--line);
+  color: #9fc6c5;
+  background: rgba(5, 43, 54, 0.92);
+}
+
+body[data-theme="underwater"] .message-photo {
+  border-color: var(--line-strong);
 }
 
 body[data-theme="underwater"] .closing-copy {

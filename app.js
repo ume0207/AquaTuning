@@ -11,6 +11,9 @@ const roomData = {
         author: "Aqua Tuning運営",
         time: "10:00",
         text: "【最初にしていただきたいこと】\n1. プロフィールのお名前とアイコンを設定\n2. 通知を受け取りたいトークを確認\n3. 『3.1 自己紹介』で、ひとことご挨拶\n\n迷ったときは『1.2 よくあるご質問』をご覧ください。",
+        image: "assets/aqua-community.webp",
+        imageAlt: "Aqua Tuningのメンバーが集まったコミュニティ写真",
+        imageCaption: "Aqua Tuningへようこそ",
         link: "https://aquatuning-academy.com/",
         linkLabel: "Aqua Tuning 公式サイト",
         preview: {
@@ -124,10 +127,21 @@ const roomData = {
   },
   profile: {
     title: "3.1 自己紹介",
-    description: "最初のご挨拶をするトークです。",
+    description: "Aqua Tuning運営と、参加する皆さまの自己紹介トークです。",
     icon: "i-user",
-    pinned: ["自己紹介フォーマット", "お名前・参加のきっかけ・楽しみにしていることをお書きください。"],
+    pinned: ["Aqua Tuning運営からの自己紹介", "続けて、お名前・参加のきっかけ・楽しみにしていることをお書きください。"],
     messages: [
+      {
+        avatar: "AT",
+        tone: "aqua",
+        author: "Aqua Tuning運営",
+        time: "17:45",
+        text: "はじめまして、Aqua Tuning運営です。\n\n透明な音叉の響きを通して、目の前の方が自分の感覚へ静かに戻れる時間をお届けしています。大切にしているのは、正解に合わせることではなく、一人ひとりのペースを尊重すること。\n\nこのコミュニティでも、学び・実践・対話を安心して重ねられる場所を、皆さまと一緒につくっていきたいと思っています。どうぞよろしくお願いします。",
+        image: "assets/aqua-navigator.webp",
+        imageAlt: "透明な音叉を手にするAqua Tuningナビゲーター",
+        imageCaption: "Aqua Tuning ナビゲーター",
+        reactions: [{ label: "♡", count: 18 }]
+      },
       {
         avatar: "奈々",
         tone: "rose",
@@ -179,50 +193,50 @@ const contentData = {
     title: "0. Aqua Tuningのご案内",
     description: "最初にご覧いただきたいご案内と、基本の使い方をまとめています。",
     items: [
-      { title: "【最初に見る】Aqua Tuningへようこそ", duration: "03分26秒", type: "video", thumb: "Welcome", tone: "aqua", progress: 100 },
-      { title: "このコミュニティの使い方", duration: "08分12秒", type: "video", thumb: "How to use", tone: "rose", progress: 35 },
-      { title: "トークとコンテンツの歩き方", duration: "記事", type: "article", thumb: "Guide", tone: "neutral", progress: 0 },
-      { title: "プロフィール・通知の設定", duration: "資料", type: "article", thumb: "Settings", tone: "lavender", progress: 0 },
-      { title: "よくあるご質問", duration: "記事", type: "article", thumb: "FAQ", tone: "aqua", progress: 0 }
+      { title: "【最初に見る】Aqua Tuningへようこそ", duration: "03分26秒", type: "video", thumb: "Welcome", tone: "aqua", image: "assets/aqua-community.webp", progress: 100 },
+      { title: "このコミュニティの使い方", duration: "08分12秒", type: "video", thumb: "How to use", tone: "rose", image: "assets/aqua-training.webp", progress: 35 },
+      { title: "トークとコンテンツの歩き方", duration: "記事", type: "article", thumb: "Guide", tone: "neutral", image: "assets/aqua-tool-sky.webp", progress: 0 },
+      { title: "プロフィール・通知の設定", duration: "資料", type: "article", thumb: "Settings", tone: "lavender", image: "assets/aqua-tool-detail.webp", progress: 0 },
+      { title: "よくあるご質問", duration: "記事", type: "article", thumb: "FAQ", tone: "aqua", image: "assets/aqua-navigator.webp", progress: 0 }
     ]
   },
   basic: {
     title: "1. 基本の使い方",
     description: "Aqua Tuningを心地よく始めるための基本を、順番にご紹介します。",
     items: [
-      { title: "Aqua Tuningの考え方", duration: "06分40秒", type: "video", thumb: "Philosophy", tone: "aqua", progress: 15 },
-      { title: "始める前に整えること", duration: "05分18秒", type: "video", thumb: "Before", tone: "rose", progress: 0 },
-      { title: "音と振動を受け取る感覚", duration: "09分02秒", type: "video", thumb: "Sound", tone: "lavender", progress: 0 },
-      { title: "無理なく続けるためのヒント", duration: "記事", type: "article", thumb: "Tips", tone: "neutral", progress: 0 }
+      { title: "Aqua Tuningの考え方", duration: "06分40秒", type: "video", thumb: "Philosophy", tone: "aqua", image: "assets/aqua-philosophy.webp", progress: 15 },
+      { title: "始める前に整えること", duration: "05分18秒", type: "video", thumb: "Before", tone: "rose", image: "assets/aqua-session.webp", progress: 0 },
+      { title: "音と振動を受け取る感覚", duration: "09分02秒", type: "video", thumb: "Sound", tone: "lavender", image: "assets/aqua-tool-sky.webp", progress: 0 },
+      { title: "無理なく続けるためのヒント", duration: "記事", type: "article", thumb: "Tips", tone: "neutral", image: "assets/aqua-navigator.webp", progress: 0 }
     ]
   },
   care: {
     title: "2. 日々のセルフケア",
     description: "朝・昼・夜。暮らしのリズムに合わせて選べる実践コンテンツです。",
     items: [
-      { title: "朝の3分チューニング", duration: "03分08秒", type: "video", thumb: "Morning", tone: "aqua", progress: 0 },
-      { title: "仕事の合間のリセット", duration: "04分35秒", type: "video", thumb: "Reset", tone: "lavender", progress: 0 },
-      { title: "眠る前の静かな呼吸", duration: "07分10秒", type: "video", thumb: "Night", tone: "rose", progress: 0 },
-      { title: "今日の感覚を記録する", duration: "ワークシート", type: "article", thumb: "Journal", tone: "neutral", progress: 0 }
+      { title: "朝の3分チューニング", duration: "03分08秒", type: "video", thumb: "Morning", tone: "aqua", image: "assets/aqua-hero.webp", progress: 0 },
+      { title: "仕事の合間のリセット", duration: "04分35秒", type: "video", thumb: "Reset", tone: "lavender", image: "assets/aqua-session.webp", progress: 0 },
+      { title: "眠る前の静かな呼吸", duration: "07分10秒", type: "video", thumb: "Night", tone: "rose", image: "assets/aqua-philosophy.webp", progress: 0 },
+      { title: "今日の感覚を記録する", duration: "ワークシート", type: "article", thumb: "Journal", tone: "neutral", image: "assets/aqua-tool-detail.webp", progress: 0 }
     ]
   },
   salon: {
     title: "3. サロンでの活用",
     description: "お客様へのご案内や、空間づくりに取り入れる際のポイントです。",
     items: [
-      { title: "セッション前の準備", duration: "08分20秒", type: "video", thumb: "Prepare", tone: "aqua", progress: 0 },
-      { title: "安心感のあるご案内方法", duration: "記事", type: "article", thumb: "Welcome", tone: "rose", progress: 0 },
-      { title: "実践後の声かけと記録", duration: "06分45秒", type: "video", thumb: "Aftercare", tone: "lavender", progress: 0 }
+      { title: "セッション前の準備", duration: "08分20秒", type: "video", thumb: "Prepare", tone: "aqua", image: "assets/aqua-session.webp", progress: 0 },
+      { title: "安心感のあるご案内方法", duration: "記事", type: "article", thumb: "Welcome", tone: "rose", image: "assets/aqua-navigator.webp", progress: 0 },
+      { title: "実践後の声かけと記録", duration: "06分45秒", type: "video", thumb: "Aftercare", tone: "lavender", image: "assets/aqua-training.webp", progress: 0 }
     ]
   },
   faq: {
     title: "4. 質問・FAQ",
     description: "つまずきやすいポイントと、よくいただくご質問への回答です。",
     items: [
-      { title: "最初はどの内容から見ればよいですか？", duration: "記事", type: "article", thumb: "Start", tone: "aqua", progress: 0 },
-      { title: "おすすめの実践時間はありますか？", duration: "記事", type: "article", thumb: "Timing", tone: "rose", progress: 0 },
-      { title: "うまく感覚をつかめないときは？", duration: "05分12秒", type: "video", thumb: "Feeling", tone: "lavender", progress: 0 },
-      { title: "運営へのお問い合わせ方法", duration: "記事", type: "article", thumb: "Contact", tone: "neutral", progress: 0 }
+      { title: "最初はどの内容から見ればよいですか？", duration: "記事", type: "article", thumb: "Start", tone: "aqua", image: "assets/aqua-community.webp", progress: 0 },
+      { title: "おすすめの実践時間はありますか？", duration: "記事", type: "article", thumb: "Timing", tone: "rose", image: "assets/aqua-tool-sky.webp", progress: 0 },
+      { title: "うまく感覚をつかめないときは？", duration: "05分12秒", type: "video", thumb: "Feeling", tone: "lavender", image: "assets/aqua-navigator.webp", progress: 0 },
+      { title: "運営へのお問い合わせ方法", duration: "記事", type: "article", thumb: "Contact", tone: "neutral", image: "assets/aqua-training.webp", progress: 0 }
     ]
   }
 };
@@ -342,6 +356,22 @@ function messageElement(message) {
   body.className = `message-body${message.plain ? " is-plain" : ""}`;
   body.textContent = message.text;
 
+  if (message.image) {
+    const figure = document.createElement("figure");
+    figure.className = "message-photo";
+    const image = document.createElement("img");
+    image.src = message.image;
+    image.alt = message.imageAlt || "";
+    image.loading = "lazy";
+    figure.append(image);
+    if (message.imageCaption) {
+      const caption = document.createElement("figcaption");
+      caption.textContent = message.imageCaption;
+      figure.append(caption);
+    }
+    body.append(figure);
+  }
+
   if (message.link) {
     body.append(document.createElement("br"));
     const link = document.createElement("a");
@@ -453,6 +483,15 @@ function renderLessons(sectionId) {
 
     const thumb = document.createElement("div");
     thumb.className = `lesson-thumbnail${item.tone === "rose" ? " is-rose" : item.tone === "lavender" ? " is-lavender" : item.tone === "neutral" ? " is-neutral" : ""}`;
+    if (item.image) {
+      thumb.classList.add("has-photo");
+      const photo = document.createElement("img");
+      photo.className = "lesson-photo";
+      photo.src = item.image;
+      photo.alt = "";
+      photo.loading = "lazy";
+      thumb.append(photo);
+    }
     const thumbNumber = document.createElement("span");
     thumbNumber.className = "thumb-number";
     thumbNumber.textContent = String(index + 1).padStart(2, "0");
