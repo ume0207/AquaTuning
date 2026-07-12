@@ -2,71 +2,279 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#fbf8fa" />
-    <meta name="description" content="Aqua Tuning Talk" />
-    <title>Aqua Tuning | Talk</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#f8fcfb" />
+    <meta name="description" content="Aqua Tuningのトークとコンテンツをひとつにまとめたコミュニティポータルです。" />
+    <title>Aqua Tuning</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&family=Noto+Serif+JP:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Noto+Sans+JP:wght@400;500;600;700&family=Noto+Serif+JP:wght@500;600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <svg class="svg-sprite" aria-hidden="true">
+      <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m7 9 5 5 5-5" /></symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4" /></symbol>
+      <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" /><path d="M4 21a8 8 0 0 1 16 0" /></symbol>
+      <symbol id="i-talk" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z" /><path d="M8 9h.01M12 9h.01M16 9h.01" /></symbol>
+      <symbol id="i-file" viewBox="0 0 24 24"><path d="M6 2h8l4 4v16H6z" /><path d="M14 2v5h5M9 12h6M9 16h6" /></symbol>
+      <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3z" /><path d="M8 8h6M8 12h6M18 7h2v13h-2" /></symbol>
+      <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 11 9-8 9 8" /><path d="M5 10v11h14V10M9 21v-7h6v7" /></symbol>
+      <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" /><path d="m20 20-4-4" /></symbol>
+      <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z" /></symbol>
+      <symbol id="i-at" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" /><path d="M16 8v6a2 2 0 0 0 4 0v-2a8 8 0 1 0-3 6" /><circle cx="12" cy="12" r="4" /></symbol>
+      <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3" /><circle cx="17" cy="9" r="2.5" /><path d="M3 20a6 6 0 0 1 12 0M14 15a5 5 0 0 1 7 5" /></symbol>
+      <symbol id="i-megaphone" viewBox="0 0 24 24"><path d="m3 11 15-6v14L3 13zM18 10l3-2M18 14l3 2M6 14l2 6h4l-2-7" /></symbol>
+      <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4 10 14" /><path d="M19 13v7H4V5h7" /></symbol>
+      <symbol id="i-attach" viewBox="0 0 24 24"><path d="m9 17 8-8a4 4 0 0 0-6-6L4 10a6 6 0 0 0 8 9l8-8" /></symbol>
+      <symbol id="i-send" viewBox="0 0 24 24"><path d="m3 3 18 9-18 9 4-9zM7 12h14" /></symbol>
+      <symbol id="i-play" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1" /><path d="m10 8 6 4-6 4z" /></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="m7 12 3 3 7-7" /></symbol>
+      <symbol id="i-back" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6" /></symbol>
+      <symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1" /><circle cx="12" cy="12" r="1" /><circle cx="19" cy="12" r="1" /></symbol>
+      <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8" /></symbol>
+    </svg>
+
     <div class="app-shell">
       <header class="site-header">
-        <button class="mobile-menu" id="mobile-menu" aria-label="メニューを開く">☰</button>
-        <a class="brand" href="?tab=talk" aria-label="Aqua Tuning"><span class="brand-watermark" aria-hidden="true"><i></i><i></i><i></i></span><span class="brand-word">Aqua<br /><em>Tuning</em></span></a>
-        <div class="header-actions"><button class="header-icon" data-toast="通知は準備中です" aria-label="通知">♧<b></b></button><button class="user-icon" data-toast="プロフィールは準備中です" aria-label="プロフィール">上</button></div>
+        <div class="brand-group">
+          <button class="icon-button workspace-button" type="button" aria-label="メニューを開く">
+            <svg class="icon"><use href="#i-chevron" /></svg>
+          </button>
+          <a class="brand" href="?tab=talk" aria-label="Aqua Tuning ホーム">
+            <span class="brand-mark" aria-hidden="true"><span></span></span>
+            <span class="brand-name">Aqua Tuning</span>
+          </a>
+          <button class="icon-button notification-button" type="button" aria-label="通知">
+            <svg class="icon"><use href="#i-bell" /></svg>
+          </button>
+        </div>
+        <button class="profile-button" type="button" aria-label="プロフィール">
+          <span class="profile-silhouette"><svg class="icon"><use href="#i-user" /></svg></span>
+        </button>
       </header>
 
-      <nav class="category-tabs" id="category-tabs" role="tablist" aria-label="Aqua Tuningカテゴリ">
-        <button class="category-tab active" role="tab" aria-selected="true" data-category="talk"><span>◌</span>トーク</button>
-        <button class="category-tab" role="tab" aria-selected="false" data-category="contents"><span>▤</span>コンテンツ</button>
-        <button class="category-tab" role="tab" aria-selected="false" data-category="intro"><span>▥</span>講座の紹介</button>
+      <nav class="primary-tabs" role="tablist" aria-label="メインメニュー">
+        <button class="primary-tab is-active" id="tab-talk" data-tab="talk" type="button" role="tab" aria-selected="true" aria-controls="panel-talk">
+          <span class="tab-notice" aria-hidden="true"></span>
+          <svg class="icon"><use href="#i-talk" /></svg><span>トーク</span>
+        </button>
+        <button class="primary-tab" id="tab-content" data-tab="content" type="button" role="tab" aria-selected="false" aria-controls="panel-content">
+          <svg class="icon"><use href="#i-file" /></svg><span>コンテンツ</span>
+        </button>
+        <button class="primary-tab" id="tab-intro" data-tab="intro" type="button" role="tab" aria-selected="false" aria-controls="panel-intro">
+          <svg class="icon"><use href="#i-book" /></svg><span>講座の紹介</span>
+        </button>
       </nav>
 
-      <div class="page-grid">
-        <main class="main-column">
-          <section class="category-panel" id="category-talk" data-category-panel="talk" aria-labelledby="talk-title">
-            <div class="page-heading"><div><p class="eyebrow"><span></span>COMMUNITY</p><h1 id="talk-title">トーク</h1></div><button class="soft-button" data-toast="トークをフォローしました">♡ フォロー</button></div>
-            <div class="thread-list" id="talk-thread-list">
-              <button class="thread-item featured" data-thread="welcome"><span class="thread-icon icon-pearl">✧</span><span class="thread-copy"><strong>はじめに</strong><small>Aqua Tuning Talkへようこそ</small><em>講師　・　1件　・　昨日</em></span><span class="thread-arrow">›</span></button>
-              <button class="thread-item" data-thread="questions"><span class="thread-icon icon-lavender">?</span><span class="thread-copy"><strong>質問・相談</strong><small>わからないことを気軽に質問できます</small><em>受講生　・　8件　・　3時間前</em></span><span class="thread-arrow">›</span></button>
-              <button class="thread-item" data-thread="practice"><span class="thread-icon icon-aqua">◌</span><span class="thread-copy"><strong>実践シェア</strong><small>日々の気づきや実践をシェアする場所</small><em>受講生　・　5件　・　昨日</em></span><span class="thread-arrow">›</span></button>
-              <button class="thread-item" data-thread="voice"><span class="thread-icon icon-rose">♡</span><span class="thread-copy"><strong>受講生の声</strong><small>感じたこと、変化、うれしかったこと</small><em>受講生　・　4件　・　2日前</em></span><span class="thread-arrow">›</span></button>
-            </div>
-          </section>
+      <main class="main-workspace">
+        <section class="main-panel is-active" id="panel-talk" data-panel="talk" role="tabpanel" aria-labelledby="tab-talk">
+          <div class="talk-shell" id="talkShell">
+            <aside class="talk-sidebar" aria-label="トーク一覧">
+              <div class="talk-subtabs" role="tablist" aria-label="トーク絞り込み">
+                <button class="talk-subtab is-active" type="button" aria-label="すべてのトーク"><span class="mini-notice"></span><svg class="icon"><use href="#i-home" /></svg></button>
+                <button class="talk-subtab" type="button" aria-label="ダイレクトメッセージ"><svg class="icon"><use href="#i-talk" /></svg></button>
+                <button class="talk-subtab" type="button" aria-label="ブックマーク"><svg class="icon"><use href="#i-bookmark" /></svg></button>
+                <button class="talk-subtab" type="button" aria-label="メンション"><svg class="icon"><use href="#i-at" /></svg></button>
+              </div>
 
-          <section class="category-panel" id="category-contents" data-category-panel="contents" hidden aria-labelledby="contents-title">
-            <div class="page-heading"><div><p class="eyebrow"><span></span>CONTENT ROOM</p><h1 id="contents-title">コンテンツ</h1></div><button class="soft-button" data-toast="コンテンツをフォローしました">♡ フォロー</button></div>
-            <div class="thread-list">
-              <button class="thread-item featured" data-thread="about"><span class="thread-icon icon-pearl">◎</span><span class="thread-copy"><strong>Aqua Tuningについて</strong><small>メソッドや道具について話すスレッド</small><em>講師　・　3件　・　2日前</em></span><span class="thread-arrow">›</span></button>
-              <button class="thread-item" data-thread="practice"><span class="thread-icon icon-aqua">◌</span><span class="thread-copy"><strong>日々の実践</strong><small>暮らしの中で感じたことをシェア</small><em>受講生　・　5件　・　昨日</em></span><span class="thread-arrow">›</span></button>
-              <button class="thread-item" data-thread="questions"><span class="thread-icon icon-lavender">?</span><span class="thread-copy"><strong>コンテンツについて質問</strong><small>みんなで答えを見つけるスレッド</small><em>受講生　・　8件　・　3時間前</em></span><span class="thread-arrow">›</span></button>
-            </div>
-          </section>
+              <div class="talk-search">
+                <svg class="icon"><use href="#i-search" /></svg>
+                <input id="roomSearch" type="search" placeholder="メッセージ検索" aria-label="メッセージ検索" />
+              </div>
 
-          <section class="category-panel intro-panel" id="category-intro" data-category-panel="intro" hidden aria-labelledby="intro-title">
-            <div class="page-heading"><div><p class="eyebrow"><span></span>ABOUT AQUA TUNING</p><h1 id="intro-title">講座の紹介</h1></div></div>
-            <div class="intro-hero"><div class="intro-orb orb-one"></div><div class="intro-orb orb-two"></div><div class="intro-copy"><p class="intro-script">Aqua Tuning</p><h2>触れるたび、<br /><em>自分を愛する時間。</em></h2><p>やさしい音と振動で、心と身体をそっと整える。Aqua Tuningの世界へようこそ。</p></div><div class="intro-crystal" aria-hidden="true"></div></div>
-            <div class="intro-info-grid"><div><span>STYLE</span><strong>やさしいケア</strong><small>自分のペースで</small></div><div><span>COMMUNITY</span><strong>Talk</strong><small>みんなでシェア</small></div><div><span>SUPPORT</span><strong>いつでも</strong><small>講師・受講生と交流</small></div></div>
-          </section>
+              <nav class="room-navigation" aria-label="トークルーム">
+                <div class="room-category" data-category="guide">
+                  <button class="category-heading" type="button" aria-expanded="true">
+                    <span><svg class="icon category-chevron"><use href="#i-chevron" /></svg>01_はじめに・ご案内</span>
+                    <svg class="icon"><use href="#i-more" /></svg>
+                  </button>
+                  <div class="room-list">
+                    <button class="room-row is-selected" type="button" data-room="welcome">
+                      <svg class="room-icon"><use href="#i-user" /></svg><span class="room-label">1.0 はじめに</span><span class="unread-dot" aria-label="未読あり"></span>
+                    </button>
+                    <button class="room-row" type="button" data-room="notice">
+                      <svg class="room-icon"><use href="#i-megaphone" /></svg><span class="room-label">1.1 運営からのお知らせ</span><span class="unread-dot" aria-label="未読あり"></span>
+                    </button>
+                    <button class="room-row" type="button" data-room="faq">
+                      <svg class="room-icon"><use href="#i-users" /></svg><span class="room-label">1.2 よくあるご質問</span>
+                    </button>
+                  </div>
+                </div>
 
-          <section class="thread-detail" id="thread-detail" hidden aria-live="polite">
-            <button class="back-button" id="thread-back">← 一覧へ戻る</button>
-            <div class="thread-detail-head"><span class="thread-detail-label" id="thread-label">THREAD</span><h2 id="thread-title">はじめに</h2><p id="thread-description"></p></div>
-            <div class="thread-posts" id="thread-posts"></div>
-            <div class="composer-card"><div class="user-icon composer-avatar">上</div><div class="composer-main"><textarea id="thread-input" rows="2" placeholder="このスレッドに投稿する…"></textarea><div class="composer-actions"><div class="composer-tools"><button data-toast="画像添付は準備中です">⊙ 画像</button><button data-toast="ファイル添付は準備中です">⌁ ファイル</button></div><button class="primary-button" id="thread-post-button">投稿する <span>→</span></button></div></div></div>
-          </section>
-        </main>
+                <div class="room-category" data-category="aqua">
+                  <button class="category-heading" type="button" aria-expanded="true">
+                    <span><svg class="icon category-chevron"><use href="#i-chevron" /></svg>02_Aqua Tuning</span>
+                    <svg class="icon"><use href="#i-more" /></svg>
+                  </button>
+                  <div class="room-list">
+                    <button class="room-row" type="button" data-room="questions">
+                      <svg class="room-icon"><use href="#i-users" /></svg><span class="room-label">2.1 なんでも質問ルーム</span>
+                    </button>
+                    <button class="room-row" type="button" data-room="practice">
+                      <svg class="room-icon"><use href="#i-users" /></svg><span class="room-label">2.2 実践シェア</span><span class="unread-dot" aria-label="未読あり"></span>
+                    </button>
+                    <button class="room-row" type="button" data-room="voice">
+                      <svg class="room-icon"><use href="#i-users" /></svg><span class="room-label">2.3 受講生の声</span>
+                    </button>
+                  </div>
+                </div>
 
-        <aside class="right-rail">
-          <section class="course-card"><div class="card-rule"></div><p class="card-label">AQUA TUNING</p><h2>Aqua Tuning</h2><p class="card-description">やさしい音と振動で、心と身体をそっと整えるコミュニティ。</p><button class="join-button" data-toast="参加状態を確認しました">このコミュニティに参加中</button><div class="tag">#セルフケア</div></section>
-          <section class="rail-card"><p class="rail-label">TODAY'S NOTE</p><p>ここで感じたことを、<br />小さな言葉からシェアしてみてください。</p><button data-toast="お知らせを確認しました">お知らせを見る　→</button></section>
-        </aside>
-      </div>
+                <div class="room-category" data-category="community">
+                  <button class="category-heading" type="button" aria-expanded="true">
+                    <span><svg class="icon category-chevron"><use href="#i-chevron" /></svg>03_交流・日々の投稿</span>
+                    <svg class="icon"><use href="#i-more" /></svg>
+                  </button>
+                  <div class="room-list">
+                    <button class="room-row" type="button" data-room="profile">
+                      <svg class="room-icon"><use href="#i-user" /></svg><span class="room-label">3.1 自己紹介</span>
+                    </button>
+                    <button class="room-row" type="button" data-room="daily">
+                      <svg class="room-icon"><use href="#i-users" /></svg><span class="room-label">3.2 今日のセルフケア</span><span class="unread-dot" aria-label="未読あり"></span>
+                    </button>
+                    <button class="room-row" type="button" data-room="event">
+                      <svg class="room-icon"><use href="#i-users" /></svg><span class="room-label">3.3 イベント・交流</span>
+                    </button>
+                  </div>
+                </div>
+              </nav>
+            </aside>
+
+            <section class="talk-main" aria-label="選択中のトーク">
+              <header class="chat-header">
+                <button class="icon-button mobile-back" id="roomBack" type="button" aria-label="トーク一覧に戻る"><svg class="icon"><use href="#i-back" /></svg></button>
+                <div class="chat-heading">
+                  <div class="chat-title-line"><svg class="chat-room-icon"><use href="#i-user" /></svg><h1 id="chatTitle">1.0 はじめに</h1></div>
+                  <p id="chatDescription">まずはこちらをご覧ください。Aqua Tuningのご案内です。</p>
+                </div>
+                <div class="chat-actions">
+                  <button class="icon-button" type="button" aria-label="トーク内検索"><svg class="icon"><use href="#i-search" /></svg></button>
+                  <button class="icon-button" type="button" aria-label="別画面で開く"><svg class="icon"><use href="#i-external" /></svg></button>
+                </div>
+              </header>
+
+              <div class="pinned-message" id="pinnedMessage">
+                <svg class="icon"><use href="#i-megaphone" /></svg>
+                <p><strong>最初にご確認ください</strong><span>プロフィール設定と通知についてご案内しています。</span></p>
+              </div>
+
+              <div class="message-stream" id="messageStream" aria-live="polite"></div>
+
+              <form class="message-composer" id="messageForm">
+                <button class="icon-button" type="button" aria-label="ファイルを添付"><svg class="icon"><use href="#i-attach" /></svg></button>
+                <button class="mention-button" type="button" aria-label="メンション">@</button>
+                <input id="messageInput" type="text" placeholder="メッセージを入力…" autocomplete="off" aria-label="メッセージを入力" />
+                <button class="send-button" type="submit" aria-label="送信"><svg class="icon"><use href="#i-send" /></svg></button>
+              </form>
+            </section>
+          </div>
+        </section>
+
+        <section class="main-panel" id="panel-content" data-panel="content" role="tabpanel" aria-labelledby="tab-content" hidden>
+          <button class="content-section-toggle" id="contentSectionToggle" type="button" aria-expanded="false">
+            <span><svg class="icon"><use href="#i-file" /></svg><span id="mobileSectionLabel">0. Aqua Tuningのご案内</span></span>
+            <svg class="icon"><use href="#i-chevron" /></svg>
+          </button>
+          <div class="content-shell">
+            <aside class="content-sidebar" id="contentSidebar" aria-label="コンテンツのセクション">
+              <div class="section-tree">
+                <h2><svg class="icon"><use href="#i-chevron" /></svg>セクション</h2>
+                <button class="section-row is-selected" type="button" data-section="guide"><svg class="check-icon"><use href="#i-check" /></svg><span>0. Aqua Tuningのご案内</span><span class="unread-dot"></span></button>
+                <button class="section-row" type="button" data-section="basic"><svg class="check-icon"><use href="#i-check" /></svg><span>1. 基本の使い方</span></button>
+                <button class="section-row" type="button" data-section="care"><svg class="check-icon"><use href="#i-check" /></svg><span>2. 日々のセルフケア</span><span class="unread-dot"></span></button>
+                <button class="section-row" type="button" data-section="salon"><svg class="check-icon"><use href="#i-check" /></svg><span>3. サロンでの活用</span></button>
+                <button class="section-row" type="button" data-section="faq"><svg class="check-icon"><use href="#i-check" /></svg><span>4. 質問・FAQ</span></button>
+              </div>
+              <div class="all-content-links">
+                <h2><svg class="icon"><use href="#i-chevron" /></svg>すべてのコンテンツ</h2>
+                <button type="button"><svg class="icon"><use href="#i-play" /></svg>動画一覧</button>
+                <button type="button"><span class="live-mark">LIVE</span>ライブ一覧</button>
+                <button type="button"><svg class="icon"><use href="#i-file" /></svg>資料一覧</button>
+                <button type="button"><svg class="icon"><use href="#i-book" /></svg>記事一覧</button>
+              </div>
+            </aside>
+
+            <section class="content-main" aria-label="コンテンツ一覧">
+              <header class="content-header">
+                <h1 id="contentTitle">0. Aqua Tuningのご案内</h1>
+                <p id="contentDescription">最初にご覧いただきたいご案内と、基本の使い方をまとめています。</p>
+              </header>
+              <ol class="lesson-list" id="lessonList"></ol>
+            </section>
+          </div>
+        </section>
+
+        <section class="main-panel" id="panel-intro" data-panel="intro" role="tabpanel" aria-labelledby="tab-intro" hidden>
+          <div class="intro-shell">
+            <article class="intro-article">
+              <div class="intro-visual" aria-label="水面をイメージしたAqua Tuningのビジュアル">
+                <span class="orb orb-one"></span><span class="orb orb-two"></span><span class="orb orb-three"></span>
+                <div class="water-rings" aria-hidden="true"><i></i><i></i><i></i></div>
+                <p class="visual-kicker">Tune your natural rhythm</p>
+                <h1>Aqua Tuning</h1>
+                <p class="visual-jp">水のように、しなやかに整う。</p>
+              </div>
+
+              <section class="intro-section">
+                <p class="section-kicker">About</p>
+                <h2>Aqua Tuningについて</h2>
+                <p>毎日の中で自分の感覚に静かに耳を澄ませ、心と身体のリズムを整えていくためのコミュニティです。トークとコンテンツを行き来しながら、ご自身のペースで続けられます。</p>
+              </section>
+
+              <section class="intro-section split-copy">
+                <div>
+                  <p class="section-kicker">For you</p>
+                  <h2>こんな方におすすめ</h2>
+                </div>
+                <ul class="plain-check-list">
+                  <li>自分をいたわる時間を習慣にしたい</li>
+                  <li>無理なく続けられる整え方を知りたい</li>
+                  <li>実践した感覚を安心して共有したい</li>
+                </ul>
+              </section>
+
+              <section class="intro-section">
+                <p class="section-kicker">Community</p>
+                <h2>ここでできること</h2>
+                <div class="feature-lines">
+                  <div><span>01</span><p><strong>トークでつながる</strong>質問や実践の気づきを、テーマ別のルームで共有できます。</p></div>
+                  <div><span>02</span><p><strong>必要な内容を選んで見る</strong>目次から、今の自分に必要なコンテンツへすぐ移動できます。</p></div>
+                  <div><span>03</span><p><strong>自分のペースで続ける</strong>進め方を決めつけず、暮らしに合わせて取り入れられます。</p></div>
+                </div>
+              </section>
+
+              <section class="intro-section closing-copy">
+                <p class="section-kicker">Message</p>
+                <h2>ひとつずつ、心地よく。</h2>
+                <p>うまくできることよりも、ご自身の変化に気づくことを大切にしています。迷ったときはトークから、知りたいときはコンテンツから。いつでも戻ってこられる場所としてお使いください。</p>
+              </section>
+            </article>
+
+            <aside class="intro-aside" aria-label="Aqua Tuningの情報">
+              <section class="aside-section intro-summary">
+                <p class="aside-eyebrow">Community</p>
+                <h2>Aqua Tuning</h2>
+                <p class="summary-copy">内側のリズムを整える、小さな習慣のための場所。</p>
+                <div class="summary-link"><span>みんなの体験談</span><button type="button" data-toast="体験談はトーク内の「受講生の声」からご覧いただけます。">投稿を見る</button></div>
+                <span class="tag">#セルフケア</span>
+              </section>
+              <section class="aside-section status-section">
+                <p class="aside-label">ご利用状況</p>
+                <p class="membership-status"><span></span>参加中</p>
+                <dl>
+                  <div><dt>未読トーク</dt><dd>4件</dd></div>
+                  <div><dt>新着コンテンツ</dt><dd>2件</dd></div>
+                </dl>
+                <button class="outline-action" type="button" data-tab-jump="talk">トークを開く</button>
+              </section>
+              <p class="aside-note">Aqua Tuning</p>
+            </aside>
+          </div>
+        </section>
+      </main>
     </div>
-    <div class="toast" id="toast" role="status"></div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
     <script src="app.js"></script>
   </body>
 </html>

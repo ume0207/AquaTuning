@@ -1,89 +1,594 @@
-const toast = document.querySelector("#toast");
-let toastTimer;
-const categories = ["talk", "contents", "intro"];
-let currentCategory = new URLSearchParams(window.location.search).get("tab") || "talk";
-
-const threads = {
-  welcome: { title: "はじめに", description: "Aqua Tuning Talkへようこそ", label: "WELCOME", posts: [{ author: "水野 講師", role: "講師", avatar: "水", avatarClass: "avatar-instructor", time: "昨日", body: "Aqua Tuning Talkへようこそ。ここでは、気づきや質問をスレッドごとにシェアできます。まずは気になるスレッドを選んで、ゆっくり参加してみてください。", quote: "心地よく学べる場を、みんなでつくっていきましょう。" }] },
-  about: { title: "Aqua Tuningについて", description: "メソッドや道具について話すスレッド", label: "ABOUT", posts: [{ author: "水野 講師", role: "講師", avatar: "水", avatarClass: "avatar-instructor", time: "2日前", body: "Aqua Tuningについて知りたいこと、感じたことを自由に書いてください。道具のこと、音や振動のこと、日常での取り入れ方など、どんな内容でも大丈夫です。" }] },
-  questions: { title: "質問・相談", description: "わからないことを気軽に質問できます", label: "QUESTIONS", posts: [{ author: "田村 里奈", role: "受講生", avatar: "田", avatarClass: "avatar-tamura", time: "3時間前", body: "みなさんに質問です。自宅で使うときの音の大きさや時間の目安があれば教えてください。" }, { author: "水野 講師", role: "講師", avatar: "水", avatarClass: "avatar-instructor", time: "1時間前", body: "ご質問ありがとうございます。まずは無理のない音量で、30秒ほどから始めてみてください。心地よさを基準に調整しましょう。" }] },
-  practice: { title: "実践シェア", description: "日々の気づきや実践をシェアする場所", label: "PRACTICE", posts: [{ author: "田村 里奈", role: "受講生", avatar: "田", avatarClass: "avatar-tamura", time: "2時間前", body: "今日は朝の支度前に短い時間だけ実践しました。呼吸に意識を向けるきっかけになってよかったです。" }] },
-  voice: { title: "受講生の声", description: "感じたこと、変化、うれしかったこと", label: "VOICE", posts: [{ author: "佐藤 美香", role: "受講生", avatar: "佐", avatarClass: "avatar-user", time: "昨日", body: "続けていると、自分の状態を立ち止まって感じる時間が増えました。小さな変化をシェアします。" }] },
-  news: { title: "お知らせ", description: "運営からの最新情報", label: "NEWS", posts: [{ author: "Aqua Tuning 運営", role: "運営", avatar: "A", avatarClass: "avatar-instructor", time: "2日前", body: "Talkをオープンしました。今後のお知らせはこのスレッドに投稿します。" }] },
+const roomData = {
+  welcome: {
+    title: "1.0 はじめに",
+    description: "まずはこちらをご覧ください。Aqua Tuningのご案内です。",
+    icon: "i-user",
+    pinned: ["最初にご確認ください", "プロフィール設定と通知についてご案内しています。"],
+    messages: [
+      {
+        avatar: "AT",
+        tone: "aqua",
+        author: "Aqua Tuning運営",
+        time: "10:00",
+        text: "【最初にしていただきたいこと】\n1. プロフィールのお名前とアイコンを設定\n2. 通知を受け取りたいトークを確認\n3. 『3.1 自己紹介』で、ひとことご挨拶\n\n迷ったときは『1.2 よくあるご質問』をご覧ください。",
+        link: "https://aquatuning-academy.com/",
+        linkLabel: "Aqua Tuning 公式サイト",
+        preview: {
+          title: "Aqua Tuning",
+          text: "水のように、しなやかに。Aqua Tuningの考え方をご紹介します。"
+        },
+        reactions: [{ label: "♡", count: 12 }, { label: "確認", count: 8 }]
+      },
+      {
+        avatar: "美咲",
+        tone: "rose",
+        author: "美咲",
+        time: "10:18",
+        text: "よろしくお願いします。まずは今日から、少しずつ試してみます。",
+        plain: true,
+        reactions: [{ label: "♡", count: 4 }]
+      }
+    ]
+  },
+  notice: {
+    title: "1.1 運営からのお知らせ",
+    description: "更新情報や大切なご案内をお届けします。",
+    icon: "i-megaphone",
+    readOnly: true,
+    pinned: ["お知らせ専用トークです", "投稿はAqua Tuning運営のみ行います。"],
+    messages: [
+      {
+        avatar: "AT",
+        tone: "aqua",
+        author: "Aqua Tuning運営",
+        time: "09:30",
+        text: "新しいコンテンツ『朝の3分チューニング』を追加しました。\nコンテンツ内の「日々のセルフケア」からご覧いただけます。",
+        reactions: [{ label: "♡", count: 16 }, { label: "見ました", count: 9 }]
+      }
+    ]
+  },
+  faq: {
+    title: "1.2 よくあるご質問",
+    description: "ご利用方法について、よくいただく質問をまとめています。",
+    icon: "i-users",
+    pinned: ["質問の前にご確認ください", "同じ内容がないか、上部の検索もお使いいただけます。"],
+    messages: [
+      {
+        avatar: "AT",
+        tone: "aqua",
+        author: "Aqua Tuning運営",
+        time: "11:05",
+        text: "Q. どこから始めればよいですか？\nA. 決まった順番はありません。最初は『0. Aqua Tuningのご案内』をご覧いただき、その日の気分に合う内容からお試しください。",
+        reactions: [{ label: "参考になった", count: 11 }]
+      }
+    ]
+  },
+  questions: {
+    title: "2.1 なんでも質問ルーム",
+    description: "Aqua Tuningについて気軽に質問できる場所です。",
+    icon: "i-users",
+    pinned: ["どんな小さなことでも大丈夫です", "状況が伝わるよう、試した内容も添えてください。"],
+    messages: [
+      {
+        avatar: "彩",
+        tone: "lavender",
+        author: "彩",
+        time: "08:42",
+        text: "夜に行う場合、時間はどれくらいが目安でしょうか？",
+        plain: true
+      },
+      {
+        avatar: "AT",
+        tone: "aqua",
+        author: "Aqua Tuning運営",
+        time: "09:12",
+        text: "最初は3分ほどで十分です。心地よく続けられる長さを大切にしてください。",
+        reactions: [{ label: "♡", count: 7 }]
+      }
+    ]
+  },
+  practice: {
+    title: "2.2 実践シェア",
+    description: "試して感じたことや小さな変化を共有しましょう。",
+    icon: "i-users",
+    pinned: ["正解のないシェアルームです", "できたことも、難しかったことも、そのままお聞かせください。"],
+    messages: [
+      {
+        avatar: "由佳",
+        tone: "rose",
+        author: "由佳",
+        time: "07:58",
+        text: "今朝は呼吸がいつもより深く入る感じがしました。短い時間でも、終わったあとの静けさが心地よかったです。",
+        plain: true,
+        reactions: [{ label: "♡", count: 14 }, { label: "わかります", count: 3 }]
+      }
+    ]
+  },
+  voice: {
+    title: "2.3 受講生の声",
+    description: "Aqua Tuningを続けて感じた変化を読むことができます。",
+    icon: "i-users",
+    readOnly: true,
+    pinned: ["皆さまから届いた体験談", "掲載内容はご本人の了承をいただいています。"],
+    messages: [
+      {
+        avatar: "沙織",
+        tone: "lavender",
+        author: "沙織",
+        time: "12:24",
+        text: "自分のために立ち止まる時間ができました。以前よりも、疲れていることに早く気づけるようになったと思います。",
+        plain: true,
+        reactions: [{ label: "♡", count: 22 }]
+      }
+    ]
+  },
+  profile: {
+    title: "3.1 自己紹介",
+    description: "最初のご挨拶をするトークです。",
+    icon: "i-user",
+    pinned: ["自己紹介フォーマット", "お名前・参加のきっかけ・楽しみにしていることをお書きください。"],
+    messages: [
+      {
+        avatar: "奈々",
+        tone: "rose",
+        author: "奈々",
+        time: "18:02",
+        text: "はじめまして、奈々です。忙しい日にも自分を整える習慣をつくりたくて参加しました。よろしくお願いします。",
+        plain: true,
+        reactions: [{ label: "♡", count: 9 }]
+      }
+    ]
+  },
+  daily: {
+    title: "3.2 今日のセルフケア",
+    description: "今日できた小さなセルフケアを残す場所です。",
+    icon: "i-users",
+    pinned: ["ひとことだけでも大丈夫です", "毎日でなくても、ご自身のペースでご参加ください。"],
+    messages: [
+      {
+        avatar: "恵",
+        tone: "aqua",
+        author: "恵",
+        time: "21:10",
+        text: "眠る前に『夜のリセット』を3分だけ。肩まわりがふっと軽くなりました。",
+        plain: true,
+        reactions: [{ label: "♡", count: 6 }]
+      }
+    ]
+  },
+  event: {
+    title: "3.3 イベント・交流",
+    description: "イベントのお知らせと参加者同士の交流ルームです。",
+    icon: "i-users",
+    pinned: ["次回のオンライン交流会", "詳細は決まり次第、このトークでお知らせします。"],
+    messages: [
+      {
+        avatar: "AT",
+        tone: "aqua",
+        author: "Aqua Tuning運営",
+        time: "15:00",
+        text: "今月のオンライン交流会は、日々の取り入れ方をテーマに開催します。参加方法は後日ご案内します。",
+        reactions: [{ label: "参加したい", count: 13 }]
+      }
+    ]
+  }
 };
 
-function showToast(message) { toast.textContent = message; toast.classList.add("show"); clearTimeout(toastTimer); toastTimer = setTimeout(() => toast.classList.remove("show"), 2300); }
-function savedPosts(id) { return JSON.parse(localStorage.getItem(`aqua-thread-posts-${id}`) || "[]"); }
+const contentData = {
+  guide: {
+    title: "0. Aqua Tuningのご案内",
+    description: "最初にご覧いただきたいご案内と、基本の使い方をまとめています。",
+    items: [
+      { title: "【最初に見る】Aqua Tuningへようこそ", duration: "03分26秒", type: "video", thumb: "Welcome", tone: "aqua", progress: 100 },
+      { title: "このコミュニティの使い方", duration: "08分12秒", type: "video", thumb: "How to use", tone: "rose", progress: 35 },
+      { title: "トークとコンテンツの歩き方", duration: "記事", type: "article", thumb: "Guide", tone: "neutral", progress: 0 },
+      { title: "プロフィール・通知の設定", duration: "資料", type: "article", thumb: "Settings", tone: "lavender", progress: 0 },
+      { title: "よくあるご質問", duration: "記事", type: "article", thumb: "FAQ", tone: "aqua", progress: 0 }
+    ]
+  },
+  basic: {
+    title: "1. 基本の使い方",
+    description: "Aqua Tuningを心地よく始めるための基本を、順番にご紹介します。",
+    items: [
+      { title: "Aqua Tuningの考え方", duration: "06分40秒", type: "video", thumb: "Philosophy", tone: "aqua", progress: 15 },
+      { title: "始める前に整えること", duration: "05分18秒", type: "video", thumb: "Before", tone: "rose", progress: 0 },
+      { title: "音と振動を受け取る感覚", duration: "09分02秒", type: "video", thumb: "Sound", tone: "lavender", progress: 0 },
+      { title: "無理なく続けるためのヒント", duration: "記事", type: "article", thumb: "Tips", tone: "neutral", progress: 0 }
+    ]
+  },
+  care: {
+    title: "2. 日々のセルフケア",
+    description: "朝・昼・夜。暮らしのリズムに合わせて選べる実践コンテンツです。",
+    items: [
+      { title: "朝の3分チューニング", duration: "03分08秒", type: "video", thumb: "Morning", tone: "aqua", progress: 0 },
+      { title: "仕事の合間のリセット", duration: "04分35秒", type: "video", thumb: "Reset", tone: "lavender", progress: 0 },
+      { title: "眠る前の静かな呼吸", duration: "07分10秒", type: "video", thumb: "Night", tone: "rose", progress: 0 },
+      { title: "今日の感覚を記録する", duration: "ワークシート", type: "article", thumb: "Journal", tone: "neutral", progress: 0 }
+    ]
+  },
+  salon: {
+    title: "3. サロンでの活用",
+    description: "お客様へのご案内や、空間づくりに取り入れる際のポイントです。",
+    items: [
+      { title: "セッション前の準備", duration: "08分20秒", type: "video", thumb: "Prepare", tone: "aqua", progress: 0 },
+      { title: "安心感のあるご案内方法", duration: "記事", type: "article", thumb: "Welcome", tone: "rose", progress: 0 },
+      { title: "実践後の声かけと記録", duration: "06分45秒", type: "video", thumb: "Aftercare", tone: "lavender", progress: 0 }
+    ]
+  },
+  faq: {
+    title: "4. 質問・FAQ",
+    description: "つまずきやすいポイントと、よくいただくご質問への回答です。",
+    items: [
+      { title: "最初はどの内容から見ればよいですか？", duration: "記事", type: "article", thumb: "Start", tone: "aqua", progress: 0 },
+      { title: "おすすめの実践時間はありますか？", duration: "記事", type: "article", thumb: "Timing", tone: "rose", progress: 0 },
+      { title: "うまく感覚をつかめないときは？", duration: "05分12秒", type: "video", thumb: "Feeling", tone: "lavender", progress: 0 },
+      { title: "運営へのお問い合わせ方法", duration: "記事", type: "article", thumb: "Contact", tone: "neutral", progress: 0 }
+    ]
+  }
+};
 
-function setCategory(category, updateUrl = true) {
-  if (!categories.includes(category)) category = "talk";
-  currentCategory = category;
-  document.querySelectorAll("[data-category]").forEach((button) => {
-    const active = button.dataset.category === category;
-    button.classList.toggle("active", active);
-    button.setAttribute("aria-selected", String(active));
+const primaryTabs = [...document.querySelectorAll(".primary-tab")];
+const panels = [...document.querySelectorAll(".main-panel")];
+const talkShell = document.getElementById("talkShell");
+const roomRows = [...document.querySelectorAll(".room-row")];
+const chatTitle = document.getElementById("chatTitle");
+const chatDescription = document.getElementById("chatDescription");
+const pinnedMessage = document.getElementById("pinnedMessage");
+const messageStream = document.getElementById("messageStream");
+const messageForm = document.getElementById("messageForm");
+const messageInput = document.getElementById("messageInput");
+const sendButton = messageForm.querySelector(".send-button");
+const lessonList = document.getElementById("lessonList");
+const contentTitle = document.getElementById("contentTitle");
+const contentDescription = document.getElementById("contentDescription");
+const contentShell = document.querySelector(".content-shell");
+const contentToggle = document.getElementById("contentSectionToggle");
+const mobileSectionLabel = document.getElementById("mobileSectionLabel");
+const toast = document.getElementById("toast");
+
+let activeTab = "talk";
+let activeRoom = "welcome";
+let activeSection = "guide";
+let toastTimer;
+
+function makeIcon(id, className = "icon") {
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("class", className);
+  const use = document.createElementNS("http://www.w3.org/2000/svg", "use");
+  use.setAttribute("href", `#${id}`);
+  svg.append(use);
+  return svg;
+}
+
+function updateUrl(changes, mode = "push") {
+  const url = new URL(window.location.href);
+  Object.entries(changes).forEach(([key, value]) => {
+    if (value === null || value === undefined || value === "") url.searchParams.delete(key);
+    else url.searchParams.set(key, value);
   });
-  document.querySelectorAll("[data-category-panel]").forEach((panel) => { panel.hidden = panel.dataset.categoryPanel !== category; });
-  if (updateUrl) {
-    const url = new URL(window.location.href);
-    url.searchParams.set("tab", category);
-    url.searchParams.delete("thread");
-    window.history.replaceState({}, "", url);
+  window.history[mode === "replace" ? "replaceState" : "pushState"]({}, "", url);
+}
+
+function setTab(tabName, { updateHistory = true } = {}) {
+  const validTab = ["talk", "content", "intro"].includes(tabName) ? tabName : "talk";
+  activeTab = validTab;
+
+  primaryTabs.forEach((tab) => {
+    const selected = tab.dataset.tab === validTab;
+    tab.classList.toggle("is-active", selected);
+    tab.setAttribute("aria-selected", String(selected));
+  });
+
+  panels.forEach((panel) => {
+    const selected = panel.dataset.panel === validTab;
+    panel.hidden = !selected;
+    panel.classList.toggle("is-active", selected);
+  });
+
+  if (updateHistory) updateUrl({ tab: validTab });
+}
+
+function messageElement(message) {
+  const group = document.createElement("article");
+  group.className = "message-group";
+
+  const avatar = document.createElement("div");
+  avatar.className = `message-avatar${message.tone === "rose" ? " is-rose" : message.tone === "lavender" ? " is-lavender" : ""}`;
+  avatar.textContent = message.avatar;
+  avatar.setAttribute("aria-hidden", "true");
+
+  const content = document.createElement("div");
+  content.className = "message-content";
+
+  const meta = document.createElement("div");
+  meta.className = "message-meta";
+  const author = document.createElement("strong");
+  author.textContent = message.author;
+  const time = document.createElement("time");
+  time.textContent = message.time;
+  meta.append(author, time);
+
+  const body = document.createElement("div");
+  body.className = `message-body${message.plain ? " is-plain" : ""}`;
+  body.textContent = message.text;
+
+  if (message.link) {
+    body.append(document.createElement("br"));
+    const link = document.createElement("a");
+    link.href = message.link;
+    link.target = "_blank";
+    link.rel = "noreferrer";
+    link.textContent = message.linkLabel || message.link;
+    body.append(link);
+  }
+
+  if (message.preview) {
+    const preview = document.createElement("div");
+    preview.className = "link-preview";
+    const previewMark = document.createElement("div");
+    previewMark.className = "link-preview-mark";
+    previewMark.textContent = "Aqua";
+    const previewText = document.createElement("p");
+    const previewTitle = document.createElement("strong");
+    previewTitle.textContent = message.preview.title;
+    previewText.append(previewTitle, document.createTextNode(message.preview.text));
+    preview.append(previewMark, previewText);
+    body.append(preview);
+  }
+
+  content.append(meta, body);
+
+  if (message.reactions?.length) {
+    const reactions = document.createElement("div");
+    reactions.className = "message-reactions";
+    message.reactions.forEach((reaction) => {
+      const button = document.createElement("button");
+      button.className = "reaction-button";
+      button.type = "button";
+      button.dataset.count = String(reaction.count);
+      button.dataset.label = reaction.label;
+      button.textContent = `${reaction.label} ${reaction.count}`;
+      reactions.append(button);
+    });
+    content.append(reactions);
+  }
+
+  group.append(avatar, content);
+  return group;
+}
+
+function renderMessages(room) {
+  messageStream.replaceChildren();
+  const date = document.createElement("div");
+  date.className = "date-divider";
+  const dateLabel = document.createElement("span");
+  dateLabel.textContent = "7/13 (月)";
+  date.append(dateLabel);
+  messageStream.append(date);
+  room.messages.forEach((message) => messageStream.append(messageElement(message)));
+  requestAnimationFrame(() => {
+    messageStream.scrollTop = 0;
+  });
+}
+
+function setRoom(roomId, { updateHistory = true, openMobile = true } = {}) {
+  if (!roomData[roomId]) return;
+  activeRoom = roomId;
+  const room = roomData[roomId];
+
+  roomRows.forEach((row) => row.classList.toggle("is-selected", row.dataset.room === roomId));
+  chatTitle.textContent = room.title;
+  chatDescription.textContent = room.description;
+  const chatIcon = document.querySelector(".chat-room-icon use");
+  chatIcon?.setAttribute("href", `#${room.icon}`);
+
+  pinnedMessage.querySelector("strong").textContent = room.pinned[0];
+  pinnedMessage.querySelector("span").textContent = room.pinned[1];
+  renderMessages(room);
+
+  messageInput.disabled = Boolean(room.readOnly);
+  sendButton.disabled = Boolean(room.readOnly);
+  messageForm.classList.toggle("is-readonly", Boolean(room.readOnly));
+  messageInput.placeholder = room.readOnly ? "このトークには投稿できません" : "メッセージを入力…";
+
+  if (openMobile) talkShell.classList.add("is-room-open");
+  if (updateHistory) updateUrl({ tab: "talk", room: roomId });
+}
+
+function showToast(message) {
+  window.clearTimeout(toastTimer);
+  toast.textContent = message;
+  toast.classList.add("is-visible");
+  toastTimer = window.setTimeout(() => toast.classList.remove("is-visible"), 2600);
+}
+
+function renderLessons(sectionId) {
+  const section = contentData[sectionId];
+  if (!section) return;
+  activeSection = sectionId;
+  contentTitle.textContent = section.title;
+  contentDescription.textContent = section.description;
+  mobileSectionLabel.textContent = section.title;
+  lessonList.replaceChildren();
+
+  section.items.forEach((item, index) => {
+    const row = document.createElement("li");
+    row.className = "lesson-row";
+    row.tabIndex = 0;
+    row.setAttribute("role", "button");
+    row.setAttribute("aria-label", `${item.title}を開く`);
+
+    const number = document.createElement("div");
+    number.className = "lesson-index";
+
+    const thumb = document.createElement("div");
+    thumb.className = `lesson-thumbnail${item.tone === "rose" ? " is-rose" : item.tone === "lavender" ? " is-lavender" : item.tone === "neutral" ? " is-neutral" : ""}`;
+    const thumbNumber = document.createElement("span");
+    thumbNumber.className = "thumb-number";
+    thumbNumber.textContent = String(index + 1).padStart(2, "0");
+    const thumbTitle = document.createElement("span");
+    thumbTitle.className = "thumb-title";
+    thumbTitle.textContent = item.thumb;
+    thumb.append(thumbNumber, thumbTitle);
+
+    const info = document.createElement("div");
+    info.className = "lesson-info";
+    const mainLine = document.createElement("div");
+    mainLine.className = "lesson-main-line";
+    const typeIcon = document.createElement("span");
+    typeIcon.className = "lesson-type-icon";
+    typeIcon.append(makeIcon(item.type === "video" ? "i-play" : "i-file"));
+    const title = document.createElement("h2");
+    title.className = "lesson-title";
+    title.textContent = item.title;
+    mainLine.append(typeIcon, title);
+    const duration = document.createElement("p");
+    duration.className = "lesson-duration";
+    duration.textContent = item.duration;
+    const progressLabel = document.createElement("span");
+    progressLabel.className = "progress-label";
+    progressLabel.textContent = `${item.progress}%`;
+    const progress = document.createElement("div");
+    progress.className = "progress-track";
+    progress.setAttribute("aria-label", `進捗 ${item.progress}%`);
+    const fill = document.createElement("span");
+    fill.className = "progress-fill";
+    fill.style.setProperty("--progress", `${item.progress}%`);
+    progress.append(fill);
+    info.append(mainLine, duration, progressLabel, progress);
+
+    const openLesson = () => showToast(`「${item.title}」を選択しました。`);
+    row.addEventListener("click", openLesson);
+    row.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        openLesson();
+      }
+    });
+
+    row.append(number, thumb, info);
+    lessonList.append(row);
+  });
+}
+
+function setSection(sectionId) {
+  if (!contentData[sectionId]) return;
+  document.querySelectorAll(".section-row").forEach((row) => row.classList.toggle("is-selected", row.dataset.section === sectionId));
+  renderLessons(sectionId);
+  contentShell.classList.remove("is-sidebar-open");
+  contentToggle.setAttribute("aria-expanded", "false");
+}
+
+primaryTabs.forEach((tab) => tab.addEventListener("click", () => setTab(tab.dataset.tab)));
+
+roomRows.forEach((row) => {
+  row.addEventListener("click", () => {
+    row.querySelector(".unread-dot")?.remove();
+    setRoom(row.dataset.room);
+  });
+});
+
+document.getElementById("roomBack").addEventListener("click", () => {
+  talkShell.classList.remove("is-room-open");
+  updateUrl({ room: null });
+});
+
+document.querySelectorAll(".category-heading").forEach((button) => {
+  button.addEventListener("click", () => {
+    const category = button.closest(".room-category");
+    const collapsed = category.classList.toggle("is-collapsed");
+    button.setAttribute("aria-expanded", String(!collapsed));
+  });
+});
+
+document.getElementById("roomSearch").addEventListener("input", (event) => {
+  const query = event.target.value.trim().toLocaleLowerCase("ja");
+  document.querySelectorAll(".room-category").forEach((category) => {
+    const rows = [...category.querySelectorAll(".room-row")];
+    rows.forEach((row) => {
+      row.hidden = Boolean(query) && !row.textContent.toLocaleLowerCase("ja").includes(query);
+    });
+    category.hidden = rows.every((row) => row.hidden);
+  });
+});
+
+document.querySelectorAll(".talk-subtab").forEach((button) => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll(".talk-subtab").forEach((item) => item.classList.remove("is-active"));
+    button.classList.add("is-active");
+    showToast(`${button.getAttribute("aria-label")}を表示しています。`);
+  });
+});
+
+messageStream.addEventListener("click", (event) => {
+  const button = event.target.closest(".reaction-button");
+  if (!button) return;
+  const reacted = button.classList.toggle("is-reacted");
+  const baseCount = Number(button.dataset.count);
+  button.textContent = `${button.dataset.label} ${reacted ? baseCount + 1 : baseCount}`;
+});
+
+messageForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const value = messageInput.value.trim();
+  if (!value || roomData[activeRoom].readOnly) return;
+  const now = new Date();
+  roomData[activeRoom].messages.push({
+    avatar: "私",
+    tone: "rose",
+    author: "あなた",
+    time: now.toLocaleTimeString("ja-JP", { hour: "2-digit", minute: "2-digit" }),
+    text: value,
+    plain: true
+  });
+  renderMessages(roomData[activeRoom]);
+  messageInput.value = "";
+  requestAnimationFrame(() => {
+    messageStream.scrollTop = messageStream.scrollHeight;
+  });
+});
+
+document.querySelectorAll(".section-row").forEach((row) => row.addEventListener("click", () => setSection(row.dataset.section)));
+
+contentToggle.addEventListener("click", () => {
+  const open = contentShell.classList.toggle("is-sidebar-open");
+  contentToggle.setAttribute("aria-expanded", String(open));
+});
+
+document.addEventListener("click", (event) => {
+  const toastTrigger = event.target.closest("[data-toast]");
+  if (toastTrigger) showToast(toastTrigger.dataset.toast);
+
+  const tabJump = event.target.closest("[data-tab-jump]");
+  if (tabJump) setTab(tabJump.dataset.tabJump);
+});
+
+window.addEventListener("popstate", () => {
+  const params = new URLSearchParams(window.location.search);
+  const tab = params.get("tab") || "talk";
+  setTab(tab, { updateHistory: false });
+  const room = params.get("room");
+  if (room && roomData[room]) setRoom(room, { updateHistory: false, openMobile: true });
+  else talkShell.classList.remove("is-room-open");
+});
+
+function initialise() {
+  const params = new URLSearchParams(window.location.search);
+  const requestedTab = params.get("tab");
+  const legacyTabs = { contents: "content", overview: "intro" };
+  const tab = legacyTabs[requestedTab] || requestedTab || "talk";
+  const room = params.get("room");
+
+  setTab(tab, { updateHistory: false });
+  setRoom(roomData[room] ? room : "welcome", {
+    updateHistory: false,
+    openMobile: Boolean(roomData[room])
+  });
+  renderLessons(activeSection);
+
+  if (!requestedTab || legacyTabs[requestedTab]) {
+    updateUrl({ tab: activeTab }, "replace");
   }
 }
 
-function renderPost(post) {
-  const card = document.createElement("article");
-  card.className = "post-card";
-  const tagClass = post.role === "講師" || post.role === "運営" ? "instructor-tag" : "member-tag";
-  card.innerHTML = `<div class="post-head"><div class="user-icon ${post.avatarClass}"></div><div><p class="post-author"></p><p class="post-time"></p></div><button class="more-button" aria-label="投稿メニュー">•••</button></div><p class="post-body"></p>${post.quote ? `<div class="post-quote"><span>“</span><div><strong>メッセージ</strong><p></p></div></div>` : ""}<div class="post-footer"><button class="reaction-button" data-reaction>♡ <span>${post.reactions || 0}</span></button><button class="comment-button">◌ コメント</button></div>`;
-  card.querySelector(".user-icon").textContent = post.avatar;
-  card.querySelector(".post-author").innerHTML = `${post.author} <span class="${tagClass}">${post.role}</span>`;
-  card.querySelector(".post-time").textContent = post.time;
-  card.querySelector(".post-body").textContent = post.body;
-  if (post.quote) card.querySelector(".post-quote p").textContent = post.quote;
-  card.querySelector("[data-reaction]").addEventListener("click", (event) => {
-    const button = event.currentTarget; const count = button.querySelector("span");
-    button.classList.toggle("liked"); count.textContent = Number(count.textContent) + (button.classList.contains("liked") ? 1 : -1);
-  });
-  return card;
-}
-
-function openThread(id, updateUrl = true) {
-  const thread = threads[id] || threads.welcome;
-  document.querySelectorAll("[data-category-panel]").forEach((panel) => { panel.hidden = true; });
-  document.querySelector("#thread-detail").hidden = false;
-  document.querySelector("#thread-label").textContent = thread.label;
-  document.querySelector("#thread-title").textContent = thread.title;
-  document.querySelector("#thread-description").textContent = thread.description;
-  const posts = document.querySelector("#thread-posts");
-  posts.replaceChildren(...[...thread.posts, ...savedPosts(id)].map(renderPost));
-  if (updateUrl) { const url = new URL(window.location.href); url.searchParams.set("thread", id); url.searchParams.set("tab", currentCategory); window.history.replaceState({}, "", url); }
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-function showCategory() {
-  document.querySelector("#thread-detail").hidden = true;
-  setCategory(currentCategory, true);
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-document.querySelectorAll("[data-category]").forEach((button) => button.addEventListener("click", () => { document.querySelector("#thread-detail").hidden = true; setCategory(button.dataset.category); }));
-document.querySelectorAll("[data-thread]").forEach((button) => button.addEventListener("click", () => openThread(button.dataset.thread)));
-document.querySelector("#thread-back")?.addEventListener("click", showCategory);
-document.querySelectorAll("[data-toast]").forEach((button) => button.addEventListener("click", () => showToast(button.dataset.toast)));
-
-document.querySelector("#thread-post-button")?.addEventListener("click", () => {
-  const input = document.querySelector("#thread-input");
-  const id = new URLSearchParams(window.location.search).get("thread") || "welcome";
-  const text = input.value.trim();
-  if (!text) return showToast("投稿内容を入力してください");
-  const posts = savedPosts(id); posts.push({ author: "上萩 環", role: "受講生", avatar: "上", avatarClass: "user-icon", time: "たった今", body: text });
-  localStorage.setItem(`aqua-thread-posts-${id}`, JSON.stringify(posts)); input.value = ""; openThread(id, false); showToast("スレッドに投稿しました");
-});
-
-const requestedTab = new URLSearchParams(window.location.search).get("tab");
-currentCategory = requestedTab === "overview" ? "intro" : requestedTab;
-setCategory(currentCategory, false);
-const requestedThread = new URLSearchParams(window.location.search).get("thread");
-if (requestedThread && threads[requestedThread]) openThread(requestedThread, false);
+initialise();
